@@ -17,7 +17,9 @@
 <script>
     export default {
         mounted() {
-            console.log('Component mounted.')
+            Echo.channel('message-received').listen('SendMessage', () => {
+                console.log('a outra pagina foi carregada');
+            });
         }
     }
 </script>

@@ -19,6 +19,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/send', function(){
+    broadcast(new \App\Events\SendMessage);
+    return 'done';
+});
+
 Route::get('/messages', function(){
     return view('message');
 });

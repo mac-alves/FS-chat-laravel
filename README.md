@@ -14,4 +14,13 @@
     npm install --save socket.io-client
     npm install -g laravel-echo-server
     laravel-echo-server init
+
+    laravel-echo-server start
+    npm run watch
+```
+
+#### criar evento
+```
+    php artisan make:event NodeDoEvento
+    
 ```
