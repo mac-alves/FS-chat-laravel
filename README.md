@@ -1,4 +1,4 @@
-####Comandos:
+#### Comandos
 ```
     laravel new NomeDoProjeto
     composer require laravel/ui --dev

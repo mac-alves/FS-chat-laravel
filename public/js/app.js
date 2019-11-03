@@ -1941,6 +1941,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['userId'],
   data: function data() {
     return {
       messages: []
@@ -1949,7 +1950,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    Echo.channel('message-received').listen('SendMessage', function (e) {
+    Echo["private"]('message.received.' + this.userId).listen('SendMessage', function (e) {
       _this.messages.push(e);
 
       console.log(e);

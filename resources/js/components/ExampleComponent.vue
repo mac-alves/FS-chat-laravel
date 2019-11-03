@@ -23,13 +23,16 @@
 
 <script>
     export default {
+        props:[
+            'userId'
+        ],
         data () {
             return {
                 messages:[]
             }
         },
         mounted() {
-            Echo.channel('message-received').listen('SendMessage', (e) => {
+            Echo.private('message.received.'+this.userId).listen('SendMessage', (e) => {
                 this.messages.push(e);
                 console.log(e);
             });
