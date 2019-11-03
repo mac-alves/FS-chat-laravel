@@ -23,9 +23,16 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Message $msg)
     {
-        return view('welcome');
+
+        $userId = \Auth::user()->id;
+        $msgs = $msg->where('to_user_id', $userId)->get();
+        $mensages = [
+            'msgs' => $msgs
+        ];
+
+        return view('welcome', $mensages);
     }
 
     public function viewMessages()

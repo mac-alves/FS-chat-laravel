@@ -1940,10 +1940,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['userId'],
+  props: ['userId', 'msgs'],
   data: function data() {
     return {
+      dataMessage: {},
       messages: []
     };
   },
@@ -1955,6 +1959,7 @@ __webpack_require__.r(__webpack_exports__);
 
       console.log(e);
     });
+    this.dataMessage = JSON.parse(this.msgs);
   }
 });
 
@@ -48860,13 +48865,25 @@ var render = function() {
             "div",
             { staticClass: "card-body" },
             [
-              _vm.messages.length <= 0
+              Object.keys(_vm.dataMessage).length === 0 &&
+              _vm.dataMessage.constructor === Object
                 ? _c("div", { staticClass: "alert alert-info" }, [
                     _vm._v(
-                      "\n                        Nenhuma Menssagem!\n                    "
+                      "\n                        Não há Menssagens!\n                    "
                     )
                   ])
                 : _vm._e(),
+              _vm._v(" "),
+              _vm._l(_vm.dataMessage, function(msg, index) {
+                return _c("p", { key: index }, [
+                  _c("strong", [_vm._v(_vm._s(msg.title))]),
+                  _vm._v(" - "),
+                  _c("small", [_vm._v(_vm._s(msg.created_at))]),
+                  _c("br"),
+                  _vm._v("\n                        " + _vm._s(msg.body)),
+                  _c("br")
+                ])
+              }),
               _vm._v(" "),
               _vm._l(_vm.messages, function(message, index) {
                 return _c("p", { key: index }, [

@@ -21,4 +21,3 @@ Route::prefix('messages')->group(function(){
     Route::get('/', 'MessageController@viewMessages');
     Route::post('/', 'MessageController@createMessages');
 });
-
