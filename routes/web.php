@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -24,13 +20,22 @@ Route::get('/home', 'HomeController@index')->name('home');
 //    return 'done';
 //});
 
-Route::get('/messages', function(){
-    return view('message');
+Route::middleware(['auth'])->group(function(){
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
+    Route::get('/messages', function(){
+        return view('message');
+    });
+
+    Route::post('/messages', function(){
+        $data = request()->all();
+        $message = \App\Message::create($data);
+        $user = \App\User::findOrFail($message->to_user_id);
+
+        broadcast(new \App\Events\SendMessage($message, $user));
+        return redirect('/messages');
+    });
 });
 
-Route::post('/messages', function(){
-    $data = request()->all();
-    $message = \App\Message::create($data);
-    broadcast(new \App\Events\SendMessage($message));
-    return redirect('/messages');
-});
