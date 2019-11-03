@@ -22,5 +22,3 @@ Route::prefix('messages')->group(function(){
     Route::post('/', 'MessageController@createMessages');
 });
 
-
-
