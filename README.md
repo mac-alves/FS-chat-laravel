@@ -1,4 +1,11 @@
-#### Comandos
+# Chat Real Time utilizando Laravel, Laravel-echo e Socket.io
+
+### Objetivo
+ - Projeto para nivel de estudo de aplicação.
+ - entender o funcionamento de aplicações real time uilizando o Laravel como framework principal.
+ - Projeto simples mas que possui as principais configurações para usar a funcionalidade em outras aplicações.
+
+#### Alguns Comandos utilizados
 ```
     laravel new NomeDoProjeto
     composer require laravel/ui --dev
