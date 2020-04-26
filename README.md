@@ -31,3 +31,16 @@
     php artisan make:event NodeDoEvento
     
 ```
+
+#### instalação do projeto
+    - baixar o repositorio
+    - composer install
+    - npm install && npm run dev
+    - clonar o .env.example -> .env
+    - php artisan key:generate
+    - touch database/database.sqlite
+    - php artisan migrate
+    - laravel-echo-server client:add
+    - copiar o id e a key do laravel-echo-server.json para o .env
+    - touch /database/laravel-echo-server.sqlite
+    
