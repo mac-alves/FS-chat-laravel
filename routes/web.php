@@ -13,11 +13,26 @@
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+/* Route::get('/home', 'HomeController@index')->name('home');
 
+//visualizo as msgs
 Route::get('/', 'MessageController@index');
 
 Route::prefix('messages')->group(function(){
+    //formulario de criação da msg
     Route::get('/', 'MessageController@viewMessages');
+
+    //rota de criaçõ da msg
     Route::post('/', 'MessageController@createMessages');
-});
+}); */
+
+
+Route::get('/', 'ChatController@index');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

@@ -1,0 +1,40 @@
+html, body, #root{
+    height: 100%;
+    background-color: #252527;
+}
+
+p {
+    margin: 0;
+}
+
+@media (min-width: 1400px) {
+    .container {
+      max-width: 1396px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container-xl,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container {
+      max-width: 1396px;
+    }
+}
+
+.write ::-webkit-input-placeholder {
+    color: #cbcacc;
+}
+
+.write :-moz-placeholder { /* Firefox 18- */
+    color: #cbcacc;
+}
+
+.write ::-moz-placeholder {  /* Firefox 19+ */
+    color: #cbcacc;
+}
+
+.write :-ms-input-placeholder {
+    color: #cbcacc;
+}
