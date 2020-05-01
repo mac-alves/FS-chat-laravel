@@ -3,4 +3,6 @@ import ReactDOM from 'react-dom';
 
 import Home from './Home/index';
 
-ReactDOM.render(<Home />, document.getElementById('root'));
+if (document.getElementById('main')) {
+    ReactDOM.render(<Home />, document.getElementById('main'));
+}

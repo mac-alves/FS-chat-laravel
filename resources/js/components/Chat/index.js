@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-
+import React, { useEffect, useRef } from 'react';
+import { api } from '../../services/api';
 import { Container } from './styles';
 import Header from '../Header';
 import FooterChat from '../FooterChat';
@@ -56,8 +56,10 @@ const Msg = [
     { class:'', msg:'tchau', horario:'11:20'},
 ];
 
+const contact = { name: 'keren', status: 'online'}
+
 const Chat = () =>{
-    const divRef = React.useRef();
+    const divRef = useRef();
 
     function scrollToBottom() {
         divRef.current.scrollTo(0, divRef.current.scrollHeight);
@@ -65,11 +67,28 @@ const Chat = () =>{
 
     useEffect(()=>{
         scrollToBottom();
+
+        getMessages();
     }, []);
+
+    function getMessages() {
+        try {
+            api.get('/messages').then(resp => {
+                console.log(resp);
+            });
+        } catch (error) {
+            console.log(error);
+            alert(`Erro no logout, tente novamente`);
+        }
+    }
+
+    function structureMessages(msgs) {
+
+    }
 
     return(
         <Container >
-            <Header icon={IconMas} />
+            <Header icon={IconMas} infoUser={contact} />
 
             <main ref={divRef}>
                 {Msg.map((msg, key) => (
