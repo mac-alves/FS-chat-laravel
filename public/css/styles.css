@@ -1,10 +1,32 @@
-html, body, #root{
+html,
+body,
+#main,
+#login{
     height: 100%;
     background-color: #252527;
 }
 
-p {
+p,
+label {
     margin: 0;
+}
+
+a:link{
+    text-decoration:none;
+}
+
+a.link {
+    color: #cbcacc;
+    transition: all 0.3s linear;
+}
+
+a.link:hover{
+    color: #f0edf3;
+}
+
+img {
+    width: 100%;
+    height: 100%;
 }
 
 @media (min-width: 1400px) {
@@ -37,4 +59,160 @@ p {
 
 .write :-ms-input-placeholder {
     color: #cbcacc;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* css das telas sem o react */
+.content {
+    background-color: #363537;
+    height: calc(100% - 38px);
+    top: 19px;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    -webkit-box-shadow: 0px 1px 3px 0px rgba(99,99,99,1);
+    -moz-box-shadow: 0px 1px 3px 0px rgba(99,99,99,1);
+    box-shadow: 0px 1px 3px 0px rgba(99,99,99,1);
+}
+
+.imgContent{
+    background-color: #252527;
+}
+
+.formContent{
+    /* background-color: #cbcacc; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formDiv {
+    /* background-color: blue; */
+    width: 55%;
+}
+
+.formDiv .imgFomDiv{
+    /* background-color: aqua; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.formDiv .info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ED7D3A;
+    margin-bottom: 10px;
+    line-height: 30px;
+    font-size: 16px;
+    color: #f2f2f2;
+    border-radius: 10px;
+}
+
+.formDiv form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* background-color: brown; */
+}
+
+.formDiv form input[type="email"],
+.formDiv form input[type="text"],
+.formDiv form input[type="password"] {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 10px;
+    border: 1px solid #4c4965;
+    border-radius: 10px;
+    padding-left: 20px;
+    font-size: 20px;
+    line-height: 20px;
+    background-color: #434344;
+    color: #cbcacc;
+    transition: all 0.2s ease-in-out;
+}
+
+input[type="email"]:focus,
+input[type="text"]:focus,
+input[type="password"]:focus {
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(239, 45, 86, 0.8);
+}
+
+.formDiv .optionsDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 10px;
+    margin: 15px 0;
+}
+
+.formDiv .optionsDiv .remember{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color:burlywood; */
+}
+
+.formDiv .optionsDiv .remember label {
+    font-style: oblique;
+    font-size: 14px;
+    font-weight: 500;
+    color: #cbcacc;
+    cursor: pointer;
+}
+
+.formDiv form input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+form .btn-form {
+    background-color: #ef2d56;
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: 800;
+    color: #cbcacc;
+    margin: 10px 0;
+    transition: all 0.3s linear;
+    border: none;
+}
+
+form .btn-form:hover{
+    background-color: #cc2347;
+}
+
+.createOrLoginDiv {
+    /* background-color: chartreuse; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

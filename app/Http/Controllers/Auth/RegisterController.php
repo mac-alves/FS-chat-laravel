@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -64,9 +64,43 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
+            'at_sign' => $this->genereteAtSing($data['email']),
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    /*
+     * gera o @ unico do usuario
+     * */
+    private function genereteAtSing($email) {
+        $arr = explode(".", explode("@", $email)[0]);
+
+        $at_sign = '@';
+
+        if (count($arr) > 1) {
+            foreach ($arr as $value) {
+                $at_sign = $at_sign."".$value;
+            }
+        } else {
+            $at_sign = $at_sign."".$arr[0];
+        }
+
+        return $this->verifyAtSingExist($at_sign);
+    }
+
+    /*
+     * retorno um @ unico
+     * */
+    private function verifyAtSingExist($at_sign) {
+        $user = User::where('at_sign', '=', $at_sign)->get();
+
+        if (count($user) > 0) {
+            $at_sign = $at_sign."".rand(100,1000);
+            verifyAtSingExist($at_sign);
+        } else {
+            return $at_sign;
+        }
     }
 }
