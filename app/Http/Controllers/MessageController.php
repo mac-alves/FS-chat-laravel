@@ -8,14 +8,17 @@ use \App\User;
 
 class MessageController extends Controller
 {
+    private $message;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Message $message)
     {
         $this->middleware('auth');
+        $this->message = $message;
     }
 
     /**
@@ -23,16 +26,15 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(Message $msg)
+    public function index()
     {
 
-        $userId = \Auth::user()->id;
-        $msgs = $msg->where('to_user_id', $userId)->get();
-        $mensages = [
-            'msgs' => $msgs
-        ];
+        $userId = auth()->user()->id;
+        $msgs = $this->message->where('user_id', $userId)
+                              ->where('contact_id', )->get();
 
-        return view('welcome', $mensages);
+        return response()->json($msgs, 200);
+        // return view('welcome', $mensages);
     }
 
     public function viewMessages()

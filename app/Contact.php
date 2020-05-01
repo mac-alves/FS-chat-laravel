@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Message extends Model
+class Contact extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'messages';
+    protected $table = 'contacts';
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +19,7 @@ class Message extends Model
      * @var array
      */
     protected $fillable = [
-        'body', 'user_id', 'contact_id'
+        'user_id', 'contact_user_id'
     ];
 
     /**
@@ -31,11 +31,18 @@ class Message extends Model
     }
 
     /**
-     * Get the user who has the contact
+     * Get contact information
      */
-    public function contact()
+    public function userContact()
     {
-        return $this->belongsTo(Contact::class);
+        return $this->hasOne(User::class, 'id', 'contact_user_id');
     }
 
+    /**
+     * Get contact messages
+     */
+    public function menssages()
+    {
+        return $this->hasMany(Message::class, 'contact_id');
+    }
 }

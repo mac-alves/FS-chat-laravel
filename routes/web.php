@@ -13,26 +13,40 @@
 
 Auth::routes();
 
-/* Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 
 //visualizo as msgs
-Route::get('/', 'MessageController@index');
+Route::get('/messages', 'MessageController@index');
 
-Route::prefix('messages')->group(function(){
-    //formulario de criação da msg
-    Route::get('/', 'MessageController@viewMessages');
+// Route::prefix('messages')->group(function(){
+//     //formulario de criação da msg
+//     Route::get('/', 'MessageController@viewMessages');
 
-    //rota de criaçõ da msg
-    Route::post('/', 'MessageController@createMessages');
-}); */
+//     //rota de criaçõ da msg
+//     Route::post('/', 'MessageController@createMessages');
+// });
 
 
 Route::get('/', 'ChatController@index');
 
-Auth::routes();
+Route::prefix('contacts')->group(function(){
+    //pesquisa qualquer contato do sistema
+    Route::get('/', 'ContactController@index');
 
-Route::get('/home', 'HomeController@index')->name('home');
+    //retorna os contatos do usuario logado
+    Route::get('/show', 'ContactController@show');
 
-Auth::routes();
+    //cria um novo contato
+    Route::post('/', 'ContactController@store');
 
-Route::get('/home', 'HomeController@index')->name('home');
+    // deleta um contato do usuario logado
+    Route::delete('/{id}', 'ContactController@destroy');
+});
+
+
+
+Route::get('/nada', function(Request $request){
+    $contact = \App\User::all();
+    return response()->json($contact, 200);
+});
+
