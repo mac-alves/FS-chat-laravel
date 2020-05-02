@@ -67,8 +67,12 @@ const Chat = () =>{
 
     useEffect(()=>{
         scrollToBottom();
+        // getMessages();
 
-        getMessages();
+        window.Echo.private('message.received.WtdDIjsCzyGqtfT').listen('SendMessage', (e) => {
+            console.log(e);
+        });
+
     }, []);
 
     function getMessages() {

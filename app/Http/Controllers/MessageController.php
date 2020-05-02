@@ -3,52 +3,57 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use \App\Events\SendMessage;
+use \App\PrivateChat;
 use \App\Message;
 use \App\User;
 
 class MessageController extends Controller
 {
     private $message;
+    private $privateChat;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(Message $message)
+    public function __construct(Message $message, PrivateChat $privateChat)
     {
         $this->middleware('auth');
         $this->message = $message;
+        $this->privateChat = $privateChat;
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
+    public function store(Request $request)
     {
+        // verificar se o usuario logado popssui esse chat
+        $privateChat = $this->privateChat->where('user_id_one', auth()->user()->id)
+                                         ->where('user_id_two', $request->input('to_user_id'))
+                                         ->where('hash_chat', $request->input('in_hash_chat'))
+                                         ->firstOrFail();
 
-        $userId = auth()->user()->id;
-        $msgs = $this->message->where('user_id', $userId)
-                              ->where('contact_id', )->get();
+        $data = [
+            'body' => $request->input('body'),
+            'from_user_id' => $privateChat->user_id_one,
+            'to_user_id' => $privateChat->user_id_two,
+            'in_hash_chat' => $privateChat->hash_chat
+        ];
 
-        return response()->json($msgs, 200);
-        // return view('welcome', $mensages);
+        $msg  = $this->message->create($data);
+
+        broadcast(new SendMessage($msg, $privateChat));
+        return response()->json($msg, 200);
     }
 
-    public function viewMessages()
+    public function show(Request $request)
     {
-        return view('message');
+        // verificar se o usuario logado popssui esse chat com o hash
+        $privateChat = $this->privateChat->where('user_id_one', auth()->user()->id)
+                                         ->where('hash_chat', $request->input('hash_chat'))
+                                         ->firstOrFail();
+
+        return response()->json($privateChat->menssages, 200);
     }
 
-    public function createMessages(Request $request, Message $message, User $user)
-    {
-        $data = $request->all();
-        $msg  = $message->create($data);
-        $userMsg = $user->findOrFail($msg->to_user_id);
-
-        broadcast(new \App\Events\SendMessage($msg, $userMsg));
-        return redirect('/messages');
-    }
 }

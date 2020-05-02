@@ -19,23 +19,32 @@ class Message extends Model
      * @var array
      */
     protected $fillable = [
-        'body', 'user_id', 'contact_id'
+        'body', 'from_user_id', 'to_user_id', 'in_hash_chat'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'in_hash_chat',
     ];
 
     /**
      * Get the user who has the contact
      */
-    public function user()
+    public function fromUser()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(User::class, 'id', 'from_user_id');
     }
 
     /**
      * Get the user who has the contact
      */
-    public function contact()
+    public function toUser()
     {
-        return $this->belongsTo(Contact::class);
+        return $this->hasOne(User::class, 'id', 'to_user_id');
     }
 
 }

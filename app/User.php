@@ -40,8 +40,8 @@ class User extends Authenticatable
     /**
      * Get the user's contacts
      */
-    public function contacts()
+    public function privateChats()
     {
-        return $this->hasMany(Contact::class, 'user_id');
+        return $this->hasMany(PrivateChat::class, 'user_id');
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use \App\PrivateChat;
+
 /*
 |--------------------------------------------------------------------------
 | Broadcast Channels
@@ -15,6 +17,9 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('message.received.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('message.received.{hash}', function ($user, $hash) {
+    $regis = PrivateChat::where('hash_chat', $hash)->get();
+
+    return count($regis) > 0;
+    // return true;
 });

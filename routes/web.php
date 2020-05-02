@@ -13,40 +13,34 @@
 
 Auth::routes();
 
-// Route::get('/home', 'HomeController@index')->name('home');
+// retorna a principla do sistema
+Route::get('/', 'PrivateChatController@viewIndex');
 
-//visualizo as msgs
-Route::get('/messages', 'MessageController@index');
-
-// Route::prefix('messages')->group(function(){
-//     //formulario de criação da msg
-//     Route::get('/', 'MessageController@viewMessages');
-
-//     //rota de criaçõ da msg
-//     Route::post('/', 'MessageController@createMessages');
-// });
-
-
-Route::get('/', 'ChatController@index');
-
-Route::prefix('contacts')->group(function(){
+Route::prefix('privatechats')->group(function(){
     //pesquisa qualquer contato do sistema
-    Route::get('/', 'ContactController@index');
+    Route::get('/', 'PrivateChatController@index');
 
     //retorna os contatos do usuario logado
-    Route::get('/show', 'ContactController@show');
+    Route::get('/show', 'PrivateChatController@show');
 
     //cria um novo contato
-    Route::post('/', 'ContactController@store');
+    Route::post('/', 'PrivateChatController@store');
 
     // deleta um contato do usuario logado
-    Route::delete('/{id}', 'ContactController@destroy');
+    Route::delete('/{id}', 'PrivateChatController@destroy');
 });
 
+Route::prefix('messages')->group(function(){
+    //retorna as msg do chat passado
+    Route::get('/', 'MessageController@show');
 
-
-Route::get('/nada', function(Request $request){
-    $contact = \App\User::all();
-    return response()->json($contact, 200);
+    //rota de criaçõ da msg
+    Route::post('/', 'MessageController@store');
 });
+
+// Route::get('/nada', function(Request $request){
+//     $contact = count(auth()->user()->contacts()->where('hash_chat', 'fRlYzF1SSrTEsZ')->get()) > 0;
+
+//     return response()->json($contact, 200);
+// });
 

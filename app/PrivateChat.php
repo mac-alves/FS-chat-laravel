@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Contact extends Model
+class PrivateChat extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'contacts';
+    protected $table = 'private_chats';
 
     /**
      * The attributes that are mass assignable.
@@ -19,23 +19,23 @@ class Contact extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'contact_user_id'
+        'user_id_one', 'user_id_two', 'hash_chat'
     ];
 
     /**
      * Get the user who has the contact
      */
-    public function user()
+    public function userOne()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(User::class, 'id', 'user_id_one');
     }
 
     /**
-     * Get contact information
+     * Get the user who has the contact
      */
-    public function userContact()
+    public function userTwo()
     {
-        return $this->hasOne(User::class, 'id', 'contact_user_id');
+        return $this->hasOne(User::class, 'id', 'user_id_two');
     }
 
     /**
@@ -43,6 +43,6 @@ class Contact extends Model
      */
     public function menssages()
     {
-        return $this->hasMany(Message::class, 'contact_id');
+        return $this->hasMany(Message::class, 'in_hash_chat', 'hash_chat');
     }
 }
