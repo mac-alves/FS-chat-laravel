@@ -851,6 +851,76 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**!
 
 /***/ }),
 
+/***/ "./node_modules/@unform/core/dist/index.es.js":
+/*!****************************************************!*\
+  !*** ./node_modules/@unform/core/dist/index.es.js ***!
+  \****************************************************/
+/*! exports provided: Form, FormContext, Scope, useField */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Form", function() { return h; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormContext", function() { return s; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Scope", function() { return b; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useField", function() { return p; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var dot_object__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dot-object */ "./node_modules/dot-object/index.js");
+/* harmony import */ var dot_object__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dot_object__WEBPACK_IMPORTED_MODULE_1__);
+var s=Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])({});function p(r){var n=Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(s),i=n.initialData,a=n.errors,c=n.scopePath,f=n.unregisterField,p=n.registerField,v=n.clearFieldError,d=Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])((function(){return c?c+"."+r:r}),[r,c]),h=Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])((function(){return dot_object__WEBPACK_IMPORTED_MODULE_1___default.a.pick(d,i)}),[d,i]),b=Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])((function(){return a[d]}),[a,d]),y=Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])((function(){v(d)}),[v,d]);return Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])((function(){return function(){return f(d)}}),[d,f]),{fieldName:d,registerField:p,defaultValue:h,clearError:y,error:b}}
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */var v=function(){return(v=Object.assign||function(r){for(var n,t=1,e=arguments.length;t<e;t++)for(var o in n=arguments[t])Object.prototype.hasOwnProperty.call(n,o)&&(r[o]=n[o]);return r}).apply(this,arguments)};function d(r,n){var t,e,o,u,i={label:0,sent:function(){if(1&o[0])throw o[1];return o[1]},trys:[],ops:[]};return u={next:a(0),throw:a(1),return:a(2)},"function"==typeof Symbol&&(u[Symbol.iterator]=function(){return this}),u;function a(u){return function(a){return function(u){if(t)throw new TypeError("Generator is already executing.");for(;i;)try{if(t=1,e&&(o=2&u[0]?e.return:u[0]?e.throw||((o=e.return)&&o.call(e),0):e.next)&&!(o=o.call(e,u[1])).done)return o;switch(e=0,o&&(u=[2&u[0],o.value]),u[0]){case 0:case 1:o=u;break;case 4:return i.label++,{value:u[1],done:!1};case 5:i.label++,e=u[1],u=[0];continue;case 7:u=i.ops.pop(),i.trys.pop();continue;default:if(!(o=(o=i.trys).length>0&&o[o.length-1])&&(6===u[0]||2===u[0])){i=0;continue}if(3===u[0]&&(!o||u[1]>o[0]&&u[1]<o[3])){i.label=u[1];break}if(6===u[0]&&i.label<o[1]){i.label=o[1],o=u;break}if(o&&i.label<o[2]){i.label=o[2],i.ops.push(u);break}o[2]&&i.ops.pop(),i.trys.pop();continue}u=n.call(r,i)}catch(r){u=[6,r],e=0}finally{t=o=0}if(5&u[0])throw u[1];return{value:u[0]?u[1]:void 0,done:!0}}([u,a])}}}var h=Object(react__WEBPACK_IMPORTED_MODULE_0__["forwardRef"])((function(n,t){var e=n.initialData,u=void 0===e?{}:e,i=n.children,p=n.onSubmit,h=Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),b=h[0],y=h[1],m=Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])([]),g=Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])((function(r){return m.current.find((function(n){return n.name===r}))}),[]),E=Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])((function(r){var n=r.ref,t=r.getValue,e=r.path;return t?t(n):e&&dot_object__WEBPACK_IMPORTED_MODULE_1___default.a.pick(e,n)}),[]),F=Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])((function(r,n){var t=r.path,e=r.ref,o=r.setValue;return o?o(e,n):!!t&&dot_object__WEBPACK_IMPORTED_MODULE_1___default.a.set(t,n,e)}),[]),w=Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])((function(r){var n=r.clearValue,t=r.ref,e=r.path;return n?n(t,""):e&&dot_object__WEBPACK_IMPORTED_MODULE_1___default.a.set(e,"",t)}),[]),O=Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])((function(r){void 0===r&&(r={}),m.current.forEach((function(n){var t=n.name,e=n.ref,o=n.path,u=n.clearValue;return u?u(e,r[t]):o&&dot_object__WEBPACK_IMPORTED_MODULE_1___default.a.set(o,r[t]?r[t]:"",e)}))}),[]),P=Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])((function(r){var n={};m.current.forEach((function(t){n[t.name]=dot_object__WEBPACK_IMPORTED_MODULE_1___default.a.pick(t.name,r)})),Object.entries(n).forEach((function(r){var n=r[0],t=r[1],e=g(n);e&&F(e,t)}))}),[g,F]),j=Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])((function(r){var n=dot_object__WEBPACK_IMPORTED_MODULE_1___default.a.dot(r);y(n)}),[]),x=Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])((function(){var r={};return m.current.forEach((function(n){r[n.name]=E(n)})),dot_object__WEBPACK_IMPORTED_MODULE_1___default.a.object(r),r}),[E]),k=Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])((function(r){return n=void 0,t=void 0,o=function(){var n;return d(this,(function(t){return r&&r.preventDefault(),n=x(),p(n,{reset:O},r),[2]}))},new((e=void 0)||(e=Promise))((function(r,u){function i(r){try{c(o.next(r))}catch(r){u(r)}}function a(r){try{c(o.throw(r))}catch(r){u(r)}}function c(n){n.done?r(n.value):new e((function(r){r(n.value)})).then(i,a)}c((o=o.apply(n,t||[])).next())}));var n,t,e,o}),[p,x,O]),V=Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])((function(r){m.current.push(r)}),[]),D=Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])((function(r){var n=m.current.findIndex((function(n){return n.name===r}));n>-1&&m.current.splice(n,1)}),[]),S=Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])((function(r){y((function(n){var t;return v(v({},n),((t={})[r]=void 0,t))}))}),[]);return Object(react__WEBPACK_IMPORTED_MODULE_0__["useImperativeHandle"])(t,(function(){return{getFieldValue:function(r){var n=g(r);return!!n&&E(n)},setFieldValue:function(r,n){var t=g(r);return!!t&&F(t,n)},getFieldError:function(r){return b[r]},setFieldError:function(r,n){y((function(t){var e;return v(v({},t),((e={})[r]=n,e))}))},clearField:function(r){var n=g(r);n&&w(n)},getErrors:function(){return b},setErrors:function(r){return j(r)},getData:function(){return x()},getFieldRef:function(r){var n=g(r);return!!n&&n.ref},setData:function(r){return P(r)},reset:function(r){return O(r)},submitForm:function(){k()}}})),react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(s.Provider,{value:{initialData:u,errors:b,scopePath:"",registerField:V,unregisterField:D,clearFieldError:S,handleSubmit:k}},i)}));function b(n){var e=n.path,o=n.children,u=Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(s),i=u.scopePath,a=function(r,n){var t={};for(var e in r)Object.prototype.hasOwnProperty.call(r,e)&&n.indexOf(e)<0&&(t[e]=r[e]);if(null!=r&&"function"==typeof Object.getOwnPropertySymbols){var o=0;for(e=Object.getOwnPropertySymbols(r);o<e.length;o++)n.indexOf(e[o])<0&&Object.prototype.propertyIsEnumerable.call(r,e[o])&&(t[e[o]]=r[e[o]])}return t}(u,["scopePath"]);return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(s.Provider,{value:v(v({},a),{scopePath:i.concat(i?"."+e:e)})},o)}
+//# sourceMappingURL=index.es.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@unform/web/dist/index.es.js":
+/*!***************************************************!*\
+  !*** ./node_modules/@unform/web/dist/index.es.js ***!
+  \***************************************************/
+/*! exports provided: Form */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Form", function() { return a; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _unform_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @unform/core */ "./node_modules/@unform/core/dist/index.es.js");
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */var o=function(){return(o=Object.assign||function(r){for(var t,e=1,n=arguments.length;e<n;e++)for(var o in t=arguments[e])Object.prototype.hasOwnProperty.call(t,o)&&(r[o]=t[o]);return r}).apply(this,arguments)};var a=Object(react__WEBPACK_IMPORTED_MODULE_0__["forwardRef"])((function(t,a){var i=t.initialData,l=void 0===i?{}:i,c=t.children,u=t.onSubmit,m=function(r,t){var e={};for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&t.indexOf(n)<0&&(e[n]=r[n]);if(null!=r&&"function"==typeof Object.getOwnPropertySymbols){var o=0;for(n=Object.getOwnPropertySymbols(r);o<n.length;o++)t.indexOf(n[o])<0&&Object.prototype.propertyIsEnumerable.call(r,n[o])&&(e[n[o]]=r[n[o]])}return e}(t,["initialData","children","onSubmit"]);return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_unform_core__WEBPACK_IMPORTED_MODULE_1__["Form"],{ref:a,initialData:l,onSubmit:u},react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_unform_core__WEBPACK_IMPORTED_MODULE_1__["FormContext"].Consumer,null,(function(t){var e=t.handleSubmit;return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form",o({onSubmit:e},m),c)})))}));
+//# sourceMappingURL=index.es.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/after/index.js":
 /*!*************************************!*\
   !*** ./node_modules/after/index.js ***!
@@ -8202,6 +8272,603 @@ function coerce(val) {
   if (val instanceof Error) return val.stack || val.message;
   return val;
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/dot-object/index.js":
+/*!******************************************!*\
+  !*** ./node_modules/dot-object/index.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _process (v, mod) {
+  var i
+  var r
+
+  if (typeof mod === 'function') {
+    r = mod(v)
+    if (r !== undefined) {
+      v = r
+    }
+  } else if (Array.isArray(mod)) {
+    for (i = 0; i < mod.length; i++) {
+      r = mod[i](v)
+      if (r !== undefined) {
+        v = r
+      }
+    }
+  }
+
+  return v
+}
+
+function parseKey (key, val) {
+  // detect negative index notation
+  if (key[0] === '-' && Array.isArray(val) && /^-\d+$/.test(key)) {
+    return val.length + parseInt(key, 10)
+  }
+  return key
+}
+
+function isIndex (k) {
+  return /^\d+$/.test(k)
+}
+
+function isObject (val) {
+  return Object.prototype.toString.call(val) === '[object Object]'
+}
+
+function isArrayOrObject (val) {
+  return Object(val) === val
+}
+
+function isEmptyObject (val) {
+  return Object.keys(val).length === 0
+}
+
+var blacklist = ['__proto__', 'prototype', 'constructor']
+var blacklistFilter = function (part) { return blacklist.indexOf(part) === -1 }
+
+function parsePath (path, sep) {
+  if (path.indexOf('[') >= 0) {
+    path = path.replace(/\[/g, '.').replace(/]/g, '')
+  }
+
+  var parts = path.split(sep)
+
+  var check = parts.filter(blacklistFilter)
+
+  if (check.length !== parts.length) {
+    throw Error('Refusing to update blacklisted property ' + path)
+  }
+
+  return parts
+}
+
+var hasOwnProperty = Object.prototype.hasOwnProperty
+
+function DotObject (separator, override, useArray, useBrackets) {
+  if (!(this instanceof DotObject)) {
+    return new DotObject(separator, override, useArray, useBrackets)
+  }
+
+  if (typeof override === 'undefined') override = false
+  if (typeof useArray === 'undefined') useArray = true
+  if (typeof useBrackets === 'undefined') useBrackets = true
+  this.separator = separator || '.'
+  this.override = override
+  this.useArray = useArray
+  this.useBrackets = useBrackets
+  this.keepArray = false
+
+  // contains touched arrays
+  this.cleanup = []
+}
+
+var dotDefault = new DotObject('.', false, true, true)
+function wrap (method) {
+  return function () {
+    return dotDefault[method].apply(dotDefault, arguments)
+  }
+}
+
+DotObject.prototype._fill = function (a, obj, v, mod) {
+  var k = a.shift()
+
+  if (a.length > 0) {
+    obj[k] = obj[k] || (this.useArray && isIndex(a[0]) ? [] : {})
+
+    if (!isArrayOrObject(obj[k])) {
+      if (this.override) {
+        obj[k] = {}
+      } else {
+        if (!(isArrayOrObject(v) && isEmptyObject(v))) {
+          throw new Error(
+            'Trying to redefine `' + k + '` which is a ' + typeof obj[k]
+          )
+        }
+
+        return
+      }
+    }
+
+    this._fill(a, obj[k], v, mod)
+  } else {
+    if (!this.override && isArrayOrObject(obj[k]) && !isEmptyObject(obj[k])) {
+      if (!(isArrayOrObject(v) && isEmptyObject(v))) {
+        throw new Error("Trying to redefine non-empty obj['" + k + "']")
+      }
+
+      return
+    }
+
+    obj[k] = _process(v, mod)
+  }
+}
+
+/**
+ *
+ * Converts an object with dotted-key/value pairs to it's expanded version
+ *
+ * Optionally transformed by a set of modifiers.
+ *
+ * Usage:
+ *
+ *   var row = {
+ *     'nr': 200,
+ *     'doc.name': '  My Document  '
+ *   }
+ *
+ *   var mods = {
+ *     'doc.name': [_s.trim, _s.underscored]
+ *   }
+ *
+ *   dot.object(row, mods)
+ *
+ * @param {Object} obj
+ * @param {Object} mods
+ */
+DotObject.prototype.object = function (obj, mods) {
+  var self = this
+
+  Object.keys(obj).forEach(function (k) {
+    var mod = mods === undefined ? null : mods[k]
+    // normalize array notation.
+    var ok = parsePath(k, self.separator).join(self.separator)
+
+    if (ok.indexOf(self.separator) !== -1) {
+      self._fill(ok.split(self.separator), obj, obj[k], mod)
+      delete obj[k]
+    } else {
+      obj[k] = _process(obj[k], mod)
+    }
+  })
+
+  return obj
+}
+
+/**
+ * @param {String} path dotted path
+ * @param {String} v value to be set
+ * @param {Object} obj object to be modified
+ * @param {Function|Array} mod optional modifier
+ */
+DotObject.prototype.str = function (path, v, obj, mod) {
+  var ok = parsePath(path, this.separator).join(this.separator)
+
+  if (path.indexOf(this.separator) !== -1) {
+    this._fill(ok.split(this.separator), obj, v, mod)
+  } else {
+    obj[path] = _process(v, mod)
+  }
+
+  return obj
+}
+
+/**
+ *
+ * Pick a value from an object using dot notation.
+ *
+ * Optionally remove the value
+ *
+ * @param {String} path
+ * @param {Object} obj
+ * @param {Boolean} remove
+ */
+DotObject.prototype.pick = function (path, obj, remove, reindexArray) {
+  var i
+  var keys
+  var val
+  var key
+  var cp
+
+  keys = parsePath(path, this.separator)
+  for (i = 0; i < keys.length; i++) {
+    key = parseKey(keys[i], obj)
+    if (obj && typeof obj === 'object' && key in obj) {
+      if (i === keys.length - 1) {
+        if (remove) {
+          val = obj[key]
+          if (reindexArray && Array.isArray(obj)) {
+            obj.splice(key, 1)
+          } else {
+            delete obj[key]
+          }
+          if (Array.isArray(obj)) {
+            cp = keys.slice(0, -1).join('.')
+            if (this.cleanup.indexOf(cp) === -1) {
+              this.cleanup.push(cp)
+            }
+          }
+          return val
+        } else {
+          return obj[key]
+        }
+      } else {
+        obj = obj[key]
+      }
+    } else {
+      return undefined
+    }
+  }
+  if (remove && Array.isArray(obj)) {
+    obj = obj.filter(function (n) {
+      return n !== undefined
+    })
+  }
+  return obj
+}
+/**
+ *
+ * Delete value from an object using dot notation.
+ *
+ * @param {String} path
+ * @param {Object} obj
+ * @return {any} The removed value
+ */
+DotObject.prototype.delete = function (path, obj) {
+  return this.remove(path, obj, true)
+}
+
+/**
+ *
+ * Remove value from an object using dot notation.
+ *
+ * Will remove multiple items if path is an array.
+ * In this case array indexes will be retained until all
+ * removals have been processed.
+ *
+ * Use dot.delete() to automatically  re-index arrays.
+ *
+ * @param {String|Array<String>} path
+ * @param {Object} obj
+ * @param {Boolean} reindexArray
+ * @return {any} The removed value
+ */
+DotObject.prototype.remove = function (path, obj, reindexArray) {
+  var i
+
+  this.cleanup = []
+  if (Array.isArray(path)) {
+    for (i = 0; i < path.length; i++) {
+      this.pick(path[i], obj, true, reindexArray)
+    }
+    if (!reindexArray) {
+      this._cleanup(obj)
+    }
+    return obj
+  } else {
+    return this.pick(path, obj, true, reindexArray)
+  }
+}
+
+DotObject.prototype._cleanup = function (obj) {
+  var ret
+  var i
+  var keys
+  var root
+  if (this.cleanup.length) {
+    for (i = 0; i < this.cleanup.length; i++) {
+      keys = this.cleanup[i].split('.')
+      root = keys.splice(0, -1).join('.')
+      ret = root ? this.pick(root, obj) : obj
+      ret = ret[keys[0]].filter(function (v) {
+        return v !== undefined
+      })
+      this.set(this.cleanup[i], ret, obj)
+    }
+    this.cleanup = []
+  }
+}
+
+/**
+ * Alias method  for `dot.remove`
+ *
+ * Note: this is not an alias for dot.delete()
+ *
+ * @param {String|Array<String>} path
+ * @param {Object} obj
+ * @param {Boolean} reindexArray
+ * @return {any} The removed value
+ */
+DotObject.prototype.del = DotObject.prototype.remove
+
+/**
+ *
+ * Move a property from one place to the other.
+ *
+ * If the source path does not exist (undefined)
+ * the target property will not be set.
+ *
+ * @param {String} source
+ * @param {String} target
+ * @param {Object} obj
+ * @param {Function|Array} mods
+ * @param {Boolean} merge
+ */
+DotObject.prototype.move = function (source, target, obj, mods, merge) {
+  if (typeof mods === 'function' || Array.isArray(mods)) {
+    this.set(target, _process(this.pick(source, obj, true), mods), obj, merge)
+  } else {
+    merge = mods
+    this.set(target, this.pick(source, obj, true), obj, merge)
+  }
+
+  return obj
+}
+
+/**
+ *
+ * Transfer a property from one object to another object.
+ *
+ * If the source path does not exist (undefined)
+ * the property on the other object will not be set.
+ *
+ * @param {String} source
+ * @param {String} target
+ * @param {Object} obj1
+ * @param {Object} obj2
+ * @param {Function|Array} mods
+ * @param {Boolean} merge
+ */
+DotObject.prototype.transfer = function (
+  source,
+  target,
+  obj1,
+  obj2,
+  mods,
+  merge
+) {
+  if (typeof mods === 'function' || Array.isArray(mods)) {
+    this.set(
+      target,
+      _process(this.pick(source, obj1, true), mods),
+      obj2,
+      merge
+    )
+  } else {
+    merge = mods
+    this.set(target, this.pick(source, obj1, true), obj2, merge)
+  }
+
+  return obj2
+}
+
+/**
+ *
+ * Copy a property from one object to another object.
+ *
+ * If the source path does not exist (undefined)
+ * the property on the other object will not be set.
+ *
+ * @param {String} source
+ * @param {String} target
+ * @param {Object} obj1
+ * @param {Object} obj2
+ * @param {Function|Array} mods
+ * @param {Boolean} merge
+ */
+DotObject.prototype.copy = function (source, target, obj1, obj2, mods, merge) {
+  if (typeof mods === 'function' || Array.isArray(mods)) {
+    this.set(
+      target,
+      _process(
+        // clone what is picked
+        JSON.parse(JSON.stringify(this.pick(source, obj1, false))),
+        mods
+      ),
+      obj2,
+      merge
+    )
+  } else {
+    merge = mods
+    this.set(target, this.pick(source, obj1, false), obj2, merge)
+  }
+
+  return obj2
+}
+
+/**
+ *
+ * Set a property on an object using dot notation.
+ *
+ * @param {String} path
+ * @param {any} val
+ * @param {Object} obj
+ * @param {Boolean} merge
+ */
+DotObject.prototype.set = function (path, val, obj, merge) {
+  var i
+  var k
+  var keys
+  var key
+
+  // Do not operate if the value is undefined.
+  if (typeof val === 'undefined') {
+    return obj
+  }
+  keys = parsePath(path, this.separator)
+
+  for (i = 0; i < keys.length; i++) {
+    key = keys[i]
+    if (i === keys.length - 1) {
+      if (merge && isObject(val) && isObject(obj[key])) {
+        for (k in val) {
+          if (hasOwnProperty.call(val, k)) {
+            obj[key][k] = val[k]
+          }
+        }
+      } else if (merge && Array.isArray(obj[key]) && Array.isArray(val)) {
+        for (var j = 0; j < val.length; j++) {
+          obj[keys[i]].push(val[j])
+        }
+      } else {
+        obj[key] = val
+      }
+    } else if (
+      // force the value to be an object
+      !hasOwnProperty.call(obj, key) ||
+      (!isObject(obj[key]) && !Array.isArray(obj[key]))
+    ) {
+      // initialize as array if next key is numeric
+      if (/^\d+$/.test(keys[i + 1])) {
+        obj[key] = []
+      } else {
+        obj[key] = {}
+      }
+    }
+    obj = obj[key]
+  }
+  return obj
+}
+
+/**
+ *
+ * Transform an object
+ *
+ * Usage:
+ *
+ *   var obj = {
+ *     "id": 1,
+ *    "some": {
+ *      "thing": "else"
+ *    }
+ *   }
+ *
+ *   var transform = {
+ *     "id": "nr",
+ *    "some.thing": "name"
+ *   }
+ *
+ *   var tgt = dot.transform(transform, obj)
+ *
+ * @param {Object} recipe Transform recipe
+ * @param {Object} obj Object to be transformed
+ * @param {Array} mods modifiers for the target
+ */
+DotObject.prototype.transform = function (recipe, obj, tgt) {
+  obj = obj || {}
+  tgt = tgt || {}
+  Object.keys(recipe).forEach(
+    function (key) {
+      this.set(recipe[key], this.pick(key, obj), tgt)
+    }.bind(this)
+  )
+  return tgt
+}
+
+/**
+ *
+ * Convert object to dotted-key/value pair
+ *
+ * Usage:
+ *
+ *   var tgt = dot.dot(obj)
+ *
+ *   or
+ *
+ *   var tgt = {}
+ *   dot.dot(obj, tgt)
+ *
+ * @param {Object} obj source object
+ * @param {Object} tgt target object
+ * @param {Array} path path array (internal)
+ */
+DotObject.prototype.dot = function (obj, tgt, path) {
+  tgt = tgt || {}
+  path = path || []
+  var isArray = Array.isArray(obj)
+
+  Object.keys(obj).forEach(
+    function (key) {
+      var index = isArray && this.useBrackets ? '[' + key + ']' : key
+      if (
+        isArrayOrObject(obj[key]) &&
+        ((isObject(obj[key]) && !isEmptyObject(obj[key])) ||
+          (Array.isArray(obj[key]) && !this.keepArray && obj[key].length !== 0))
+      ) {
+        if (isArray && this.useBrackets) {
+          var previousKey = path[path.length - 1] || ''
+          return this.dot(
+            obj[key],
+            tgt,
+            path.slice(0, -1).concat(previousKey + index)
+          )
+        } else {
+          return this.dot(obj[key], tgt, path.concat(index))
+        }
+      } else {
+        if (isArray && this.useBrackets) {
+          tgt[path.join(this.separator).concat('[' + key + ']')] = obj[key]
+        } else {
+          tgt[path.concat(index).join(this.separator)] = obj[key]
+        }
+      }
+    }.bind(this)
+  )
+  return tgt
+}
+
+DotObject.pick = wrap('pick')
+DotObject.move = wrap('move')
+DotObject.transfer = wrap('transfer')
+DotObject.transform = wrap('transform')
+DotObject.copy = wrap('copy')
+DotObject.object = wrap('object')
+DotObject.str = wrap('str')
+DotObject.set = wrap('set')
+DotObject.delete = wrap('delete')
+DotObject.del = DotObject.remove = wrap('remove')
+DotObject.dot = wrap('dot');
+['override', 'overwrite'].forEach(function (prop) {
+  Object.defineProperty(DotObject, prop, {
+    get: function () {
+      return dotDefault.override
+    },
+    set: function (val) {
+      dotDefault.override = !!val
+    }
+  })
+});
+['useArray', 'keepArray', 'useBrackets'].forEach(function (prop) {
+  Object.defineProperty(DotObject, prop, {
+    get: function () {
+      return dotDefault[prop]
+    },
+    set: function (val) {
+      dotDefault[prop] = val
+    }
+  })
+})
+
+DotObject._process = _process
+
+module.exports = DotObject
 
 
 /***/ }),
@@ -80205,252 +80872,130 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/api */ "./resources/js/services/api.js");
-/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./styles */ "./resources/js/components/Chat/styles.js");
-/* harmony import */ var _Header__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Header */ "./resources/js/components/Header/index.js");
-/* harmony import */ var _FooterChat__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../FooterChat */ "./resources/js/components/FooterChat/index.js");
-/* harmony import */ var _assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../assets/img/icon-mas.svg */ "./resources/js/assets/img/icon-mas.svg");
-/* harmony import */ var _assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _contexts_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../contexts/auth */ "./resources/js/contexts/auth.js");
+/* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/api */ "./resources/js/services/api.js");
+/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./styles */ "./resources/js/components/Chat/styles.js");
+/* harmony import */ var _HeaderChat__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../HeaderChat */ "./resources/js/components/HeaderChat/index.js");
+/* harmony import */ var _FooterChat__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../FooterChat */ "./resources/js/components/FooterChat/index.js");
+/* harmony import */ var _assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../assets/img/icon-mas.svg */ "./resources/js/assets/img/icon-mas.svg");
+/* harmony import */ var _assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_6__);
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
 
 
-var Msg = [{
-  "class": 'user',
-  msg: 'Oi.. voce vai hoje ?',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'Oi.. acho que sim',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'que horas voce vai?',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'é a noite, acho que a galera vai toda de uma vez, mas não tava querendo',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'acho que umas 20h',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'tudo bem vou te esperar la',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'ok, me espera na porta',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'ok, tchau',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'tchau',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'Oi.. voce vai hoje ?',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'Oi.. acho que sim',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'que horas voce vai?',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'é a noite, acho que a galera vai toda de uma vez, mas não tava querendo',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'acho que umas 20h',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'tudo bem vou te esperar la',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'ok, me espera na porta',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'ok, tchau',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'tchau',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'Oi.. voce vai hoje ?',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'Oi.. acho que sim',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'que horas voce vai?',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'é a noite, acho que a galera vai toda de uma vez, mas não tava querendo',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'acho que umas 20h',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'tudo bem vou te esperar la',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'ok, me espera na porta',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'ok, tchau',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'tchau',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'Oi.. voce vai hoje ?',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'Oi.. acho que sim',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'que horas voce vai?',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'é a noite, acho que a galera vai toda de uma vez, mas não tava querendo',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'acho que umas 20h',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'tudo bem vou te esperar la',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'ok, me espera na porta',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'ok, tchau',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'tchau',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'ok, tchau',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'tchau',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'Oi.. voce vai hoje ?',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'Oi.. acho que sim',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'que horas voce vai?',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'é a noite, acho que a galera vai toda de uma vez, mas não tava querendo',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'acho que umas 20h',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'tudo bem vou te esperar la',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'ok, me espera na porta',
-  horario: '11:20'
-}, {
-  "class": 'user',
-  msg: 'ok, tchau',
-  horario: '11:20'
-}, {
-  "class": '',
-  msg: 'tchau',
-  horario: '11:20'
-}];
-var contact = {
-  name: 'keren',
-  status: 'online'
-};
+
+
 
 var Chat = function Chat() {
   var divRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+
+  var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_contexts_auth__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      userLogued = _useContext.userLogued,
+      chatCurrent = _useContext.chatCurrent;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      messages = _useState2[0],
+      setMessages = _useState2[1];
 
   function scrollToBottom() {
     divRef.current.scrollTo(0, divRef.current.scrollHeight);
   }
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    scrollToBottom(); // getMessages();
+    if (Object.entries(userLogued).length > 0) {
+      getMessages();
+    }
 
-    window.Echo["private"]('message.received.WtdDIjsCzyGqtfT').listen('SendMessage', function (e) {
-      console.log(e);
+    window.Echo["private"]("message.received.".concat(chatCurrent.hashChat)).listen('SendMessage', function (e) {
+      setMessages(function (msgs) {
+        return [].concat(_toConsumableArray(msgs), [structureMessageRealTime(e)]);
+      });
+      scrollToBottom();
     });
-  }, []);
+  }, [chatCurrent]);
 
   function getMessages() {
-    try {
-      _services_api__WEBPACK_IMPORTED_MODULE_1__["api"].get('/messages').then(function (resp) {
-        console.log(resp);
-      });
-    } catch (error) {
+    _services_api__WEBPACK_IMPORTED_MODULE_2__["api"].get('/messages', {
+      hash_chat: chatCurrent.hashChat
+    }).then(function (resp) {
+      console.log(resp);
+      setMessages(structureMessagesInitial(resp));
+      scrollToBottom();
+    })["catch"](function (error) {
       console.log(error);
       alert("Erro no logout, tente novamente");
-    }
+    });
   }
 
-  function structureMessages(msgs) {}
+  function structureMessagesInitial(msgs) {
+    return msgs.map(function (msg) {
+      return {
+        id: msg.id,
+        body: msg.body,
+        time: getTimeMsg(msg.created_at),
+        from: Number(msg.from_user_id),
+        to: Number(msg.to_user_id),
+        "class": getClassMsg(Number(msg.from_user_id))
+      };
+    });
+  }
+
+  function structureMessageRealTime(msg) {
+    return {
+      id: msg.id,
+      body: msg.body,
+      time: getTimeMsg(msg.created_at),
+      from: Number(msg.from_user_id),
+      to: Number(msg.to_user_id),
+      "class": getClassMsg(Number(msg.from_user_id))
+    };
+  }
+
+  function getClassMsg(from) {
+    if (from === Number(userLogued.id)) {
+      return 'user';
+    }
+
+    return '';
+  }
+
+  function getTimeMsg(date) {
+    return new Intl.DateTimeFormat('pt-bt', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false
+    }).format(new Date(date));
+  }
 
   return (
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles__WEBPACK_IMPORTED_MODULE_2__["Container"], null,
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles__WEBPACK_IMPORTED_MODULE_3__["Container"], null,
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Header__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      icon: _assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_5___default.a,
-      infoUser: contact
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HeaderChat__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      icon: _assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_6___default.a
     }),
     /*#__PURE__*/
     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
       ref: divRef
-    }, Msg.map(function (msg, key) {
+    }, messages.map(function (msg, key) {
       return (
         /*#__PURE__*/
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -80462,13 +81007,13 @@ var Chat = function Chat() {
           className: "msg"
         },
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, msg.msg),
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, msg.body),
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", null, msg.horario)))
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", null, msg.time)))
       );
     })),
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_FooterChat__WEBPACK_IMPORTED_MODULE_4__["default"], null))
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_FooterChat__WEBPACK_IMPORTED_MODULE_5__["default"], null))
   );
 };
 
@@ -80488,7 +81033,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n    width: 70%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    flex-direction: column;\n\n    main {\n        padding: 30px 30px 20px;\n        overflow-y: scroll;\n        height: 500px;\n        /* background-color: #566; */\n        width: 100%;\n        flex: 1 1 auto;\n    }\n\n    /* configurando scroll */\n    main::-webkit-scrollbar {\n        width:10px;\n        background:#6E6D6F;\n    }\n\n    main::-webkit-scrollbar-track {\n        background: rgba(0,0,0,0.1);\n    }\n\n    main::-webkit-scrollbar-thumb {\n        border-radius:10px;\n        background:#4A494B;\n    }\n\n    .msgDiv {\n        width: 100%;\n        display: flex;\n        margin-bottom: 7px;\n        padding-left: 5%;\n        padding-right: 5%;\n        display: flex;\n        color: #363537;\n\n        .msg {\n            background-color: #FFFFFF;\n            border-radius: 10px;\n            padding: 6px 10px;\n            display: flex;\n            justify-content: center;\n            align-items: flex-end;\n            max-width: 65%;\n\n            i {\n                margin-left: 10px;\n                font-size: 12px;\n                position: relative;\n                top: 7px;\n                left: 2px;\n            }\n        }\n    }\n\n    .user {\n        justify-content:  flex-end;\n\n        .msg{\n            background-color: #8CD867;\n        }\n    }\n"]);
+  var data = _taggedTemplateLiteral(["\n    width: 70%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    flex-direction: column;\n\n    main {\n        padding: 30px 30px 20px;\n        overflow-y: auto;\n        width: 100%;\n        margin-top: auto;\n    }\n\n    /* configurando scroll */\n    main::-webkit-scrollbar {\n        width:10px;\n        background:#6E6D6F;\n    }\n\n    main::-webkit-scrollbar-track {\n        background: rgba(0,0,0,0.1);\n    }\n\n    main::-webkit-scrollbar-thumb {\n        border-radius:10px;\n        background:#4A494B;\n    }\n\n    .msgDiv {\n        width: 100%;\n        display: flex;\n        margin-bottom: 7px;\n        padding-left: 5%;\n        padding-right: 5%;\n        display: flex;\n        color: #363537;\n\n        .msg {\n            background-color: #FFFFFF;\n            border-radius: 10px;\n            padding: 6px 10px;\n            display: flex;\n            justify-content: center;\n            align-items: flex-end;\n            max-width: 65%;\n\n            i {\n                margin-left: 10px;\n                font-size: 12px;\n                position: relative;\n                top: 7px;\n                left: 2px;\n            }\n        }\n    }\n\n    .user {\n        justify-content:  flex-end;\n\n        .msg{\n            background-color: #8CD867;\n        }\n    }\n"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -80516,12 +81061,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _contexts_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../contexts/auth */ "./resources/js/contexts/auth.js");
-/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./styles */ "./resources/js/components/Contacts/styles.js");
-/* harmony import */ var _Header__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Header */ "./resources/js/components/Header/index.js");
-/* harmony import */ var _assets_img_icon_fem_svg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../assets/img/icon-fem.svg */ "./resources/js/assets/img/icon-fem.svg");
-/* harmony import */ var _assets_img_icon_fem_svg__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_assets_img_icon_fem_svg__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../assets/img/icon-mas.svg */ "./resources/js/assets/img/icon-mas.svg");
-/* harmony import */ var _assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/api */ "./resources/js/services/api.js");
+/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./styles */ "./resources/js/components/Contacts/styles.js");
+/* harmony import */ var _Header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Header */ "./resources/js/components/Header/index.js");
+/* harmony import */ var _assets_img_icon_fem_svg__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../assets/img/icon-fem.svg */ "./resources/js/assets/img/icon-fem.svg");
+/* harmony import */ var _assets_img_icon_fem_svg__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_assets_img_icon_fem_svg__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../assets/img/icon-mas.svg */ "./resources/js/assets/img/icon-mas.svg");
+/* harmony import */ var _assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_6__);
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -80536,53 +81082,116 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var List = [{
-  name: 'keren',
-  utimaMsg: 'nada alem de nada',
-  photo: _assets_img_icon_fem_svg__WEBPACK_IMPORTED_MODULE_4___default.a
-}, {
-  name: 'Mauricio',
-  utimaMsg: 'nada alem de nada',
-  photo: _assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_5___default.a
-}, {
-  name: 'keren',
-  utimaMsg: 'nada alem de nada',
-  photo: _assets_img_icon_fem_svg__WEBPACK_IMPORTED_MODULE_4___default.a
-}];
-var itensDropDown = [{
-  title: 'Adcionar Contatos',
-  "function": ''
-}, {
-  title: 'Conta',
-  functionlink: ''
-}, {
-  title: 'Sair',
-  "function": ''
-}];
+
 
 var Contacts = function Contacts() {
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([{
+  var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_contexts_auth__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      userLogued = _useContext.userLogued,
+      setChatCurrent = _useContext.setChatCurrent;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    name: null,
+    status: null
+  }),
+      _useState2 = _slicedToArray(_useState, 2),
+      userHeader = _useState2[0],
+      setUserHeader = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      contacts = _useState4[0],
+      setContacts = _useState4[1];
+
+  var itensDropDown = [{
     title: 'Adcionar Contatos',
-    "function": function _function() {}
+    "function": ''
   }, {
     title: 'Conta',
-    functionlink: function functionlink() {}
-  }]),
-      _useState2 = _slicedToArray(_useState, 2),
-      itensDropDown = _useState2[0],
-      setItensDropDown = _useState2[1];
+    functionlink: ''
+  }];
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (Object.entries(userLogued).length > 0) {
+      getListPrivateChats(userLogued);
+      setUserHeader({
+        name: "Ol\xE1, ".concat(userLogued.name),
+        status: null
+      });
+    }
+  }, [userLogued]);
+  var getListPrivateChats = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function (userLogued) {
+    _services_api__WEBPACK_IMPORTED_MODULE_2__["api"].get('/privatechats/show').then(function (res) {
+      setContacts(getContacts(res, userLogued));
+    })["catch"](function (error) {
+      console.log(error);
+      alert("Erro no logout, tente novamente");
+    });
+  }, [userLogued]);
+
+  function getContacts(contacts, userLogued) {
+    return contacts.map(function (contact) {
+      var user = Number(contact.user_id_one) === Number(userLogued.id) ? 'user_two' : 'user_one';
+      return {
+        idChat: contact.id,
+        idUserChat: contact[user].id,
+        nameUserChat: contact[user].name,
+        atSign: contact[user].at_sign,
+        hashChat: contact.hash_chat,
+        createdAt: contact.created_at,
+        lastMenssage: getLastMenssage(contact.last_menssage)
+      };
+    });
+  }
+
+  function getLastMenssage(lastMenssage) {
+    if (lastMenssage) {
+      return {
+        body: lastMenssage.body,
+        from: Number(lastMenssage.from_user_id),
+        to: Number(lastMenssage.to_user_id),
+        dateTime: getDateLastMenssage(lastMenssage.created_at)
+      };
+    }
+
+    return null;
+  }
+
+  function getDateLastMenssage(date) {
+    var dateCurrent = new Date();
+    var dateMsg = new Date(date);
+    var dateDifference = new Date(dateCurrent - dateMsg).getDate();
+    var dateFinal = 'ontem';
+
+    if (dateDifference === 1) {
+      dateFinal = new Intl.DateTimeFormat('pt-bt', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false
+      }).format(dateMsg);
+    }
+
+    if (dateDifference >= 3) {
+      dateFinal = new Intl.DateTimeFormat('pt-bt', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric'
+      }).format(dateMsg);
+    }
+
+    return dateFinal;
+  }
 
   return (
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles__WEBPACK_IMPORTED_MODULE_2__["Container"], null,
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles__WEBPACK_IMPORTED_MODULE_3__["Container"], null,
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Header__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      icon: _assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_5___default.a,
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Header__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      icon: _assets_img_icon_mas_svg__WEBPACK_IMPORTED_MODULE_6___default.a,
       itensDropDown: itensDropDown,
-      sair: true
+      sair: true,
+      infoUser: userHeader
     }),
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", null, List.map(function (item, key) {
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", null, contacts.map(function (contact, key) {
       return (
         /*#__PURE__*/
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -80594,27 +81203,30 @@ var Contacts = function Contacts() {
         },
         /*#__PURE__*/
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: item.photo,
+          src: _assets_img_icon_fem_svg__WEBPACK_IMPORTED_MODULE_5___default.a,
           alt: ""
         })),
         /*#__PURE__*/
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "infoContac"
+          className: "infoContac",
+          onClick: function onClick() {
+            return setChatCurrent(contact);
+          }
         },
         /*#__PURE__*/
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "info name"
         },
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, item.name)),
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, contact.nameUserChat),
+        /*#__PURE__*/
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, !!contact.lastMenssage && contact.lastMenssage.dateTime)),
         /*#__PURE__*/
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "info utimaMsg"
         },
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", null, item.utimaMsg),
-        /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", null, "19:00"))))
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", null, !!contact.lastMenssage && contact.lastMenssage.body))))
       );
     })))
   );
@@ -80636,7 +81248,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n    width: 30%;\n    height: 100%;\n    display: flex;\n    flex-direction: column;\n    overflow: hidden;\n    border-right: 1px solid #424242;\n\n    main > div {\n        /* background-color: #fff; */\n        display: flex;\n        justify-content: flex-start;\n        cursor: pointer;\n        transition: all 0.3s linear;\n        padding: 10px 10px 0;\n    }\n\n    main > div:hover{\n        /* background-color: #ccc; */\n        padding: 10px 10px 0 20px;\n    }\n\n    .imgDiv {\n        width: 70px;\n        height: 60px;\n        display: flex;\n        justify-content: center;\n        padding: 2px 2px 2px 2px;\n        /* background-color:#455; */\n\n        img {\n            width: 54px;\n            height: 54px;\n        }\n    }\n\n    .infoContac {\n        display: flex;\n        justify-content: center;\n        align-items: flex-start;\n        flex-direction: column;\n        width: 100%;\n        color: #f7ebee;\n        border-bottom: 1px solid #424242;\n\n        .info{\n            /* background-color: #566; */\n            width: 100%;\n            display: flex;\n        }\n\n        .name {\n            display: flex;\n\n            p {\n                /* background-color: #899; */\n                width: 100%;\n                padding: 0px 8px 0px 10px;\n                font-size: 18px;\n                font-weight: bold;\n            }\n\n            /* p:last-child {\n                font-weight: 100;\n                font-size: 13px;\n                display: flex;\n                align-items: center;\n                padding-top: 5px;\n                margin-left: auto;\n            } */\n        }\n\n        .utimaMsg{\n\n            i {\n                padding: 0px 8px 0px 10px;\n            }\n\n            i:first-child {\n                display: inline-block;\n                white-space: nowrap;\n                width:250px;\n                overflow: hidden !important;\n                text-overflow: ellipsis;\n            }\n\n            i:last-child {\n                margin-left: auto;\n            }\n        }\n    }\n"]);
+  var data = _taggedTemplateLiteral(["\n    width: 30%;\n    height: 100%;\n    display: flex;\n    flex-direction: column;\n    overflow: hidden;\n    border-right: 1px solid #424242;\n\n    main > div {\n        /* background-color: #fff; */\n        display: flex;\n        justify-content: flex-start;\n        cursor: pointer;\n        transition: all 0.3s linear;\n        padding: 10px 10px 0;\n    }\n\n    main > div:hover{\n        /* background-color: #ccc; */\n        padding: 10px 10px 0 20px;\n    }\n\n    .imgDiv {\n        width: 70px;\n        height: 60px;\n        display: flex;\n        justify-content: center;\n        padding: 2px 2px 2px 2px;\n        /* background-color:#455; */\n\n        img {\n            width: 54px;\n            height: 54px;\n        }\n    }\n\n    .infoContac {\n        display: flex;\n        justify-content: center;\n        align-items: flex-start;\n        flex-direction: column;\n        width: 100%;\n        color: #f7ebee;\n        border-bottom: 1px solid #424242;\n\n        .info{\n            /* background-color: #566; */\n            width: 100%;\n            display: flex;\n        }\n\n        .name {\n            display: flex;\n\n            p {\n                /* background-color: #899; */\n                padding: 0px 8px 0px 10px;\n                font-size: 18px;\n                font-weight: bold;\n            }\n\n            p:last-child {\n                /* background-color: #899; */\n                font-weight: 100;\n                font-size: 13px;\n                display: flex;\n                align-items: center;\n                padding-top: 5px;\n                margin-left: auto;\n            }\n        }\n\n        .utimaMsg{\n            /* background-color: #899; */\n\n            i {\n                padding: 0px 8px 0px 10px;\n            }\n\n            i:first-child {\n                /* background-color: #987; */\n                display: inline-block;\n                white-space: nowrap;\n                width:250px;\n                overflow: hidden !important;\n                text-overflow: ellipsis;\n            }\n\n            /* i:last-child {\n                margin-left: auto;\n            } */\n        }\n    }\n"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -80663,37 +81275,72 @@ var Container = styled_components__WEBPACK_IMPORTED_MODULE_0__["default"].div(_t
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_icons_fi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-icons/fi */ "./node_modules/react-icons/fi/index.esm.js");
-/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./styles */ "./resources/js/components/FooterChat/styles.js");
+/* harmony import */ var _unform_web__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @unform/web */ "./node_modules/@unform/web/dist/index.es.js");
+/* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/api */ "./resources/js/services/api.js");
+/* harmony import */ var _Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Input */ "./resources/js/components/Input/index.js");
+/* harmony import */ var _contexts_auth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../contexts/auth */ "./resources/js/contexts/auth.js");
+/* harmony import */ var react_icons_fi__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-icons/fi */ "./node_modules/react-icons/fi/index.esm.js");
+/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles */ "./resources/js/components/FooterChat/styles.js");
+
+
+
+
 
 
 
 
 var FooterChat = function FooterChat() {
+  var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_contexts_auth__WEBPACK_IMPORTED_MODULE_4__["default"]),
+      userLogued = _useContext.userLogued,
+      chatCurrent = _useContext.chatCurrent;
+
+  var formRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
+
+  function handleSubmit(e) {
+    if (e.body !== '') {
+      sendMessage(e.body);
+    }
+  }
+
+  function sendMessage(body) {
+    _services_api__WEBPACK_IMPORTED_MODULE_2__["api"].post('/messages', {
+      body: body,
+      in_hash_chat: chatCurrent.hashChat,
+      to_user_id: chatCurrent.idUserChat
+    }).then(function (resp) {
+      formRef.current.setData({
+        body: ''
+      });
+    })["catch"](function (error) {
+      console.log(error);
+      alert("Erro no logout, tente novamente");
+    });
+  }
+
   return (
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles__WEBPACK_IMPORTED_MODULE_2__["Container"], null,
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles__WEBPACK_IMPORTED_MODULE_6__["Container"], null,
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "write"
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_unform_web__WEBPACK_IMPORTED_MODULE_1__["Form"], {
+      onSubmit: handleSubmit,
+      className: "fomMsg",
+      ref: formRef
     },
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-      action: ""
-    },
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      name: "body",
+      placeholder: "digite sua mensagem",
+      type: "text"
+    }),
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-      type: "text",
-      placeholder: "digite sua mensagem"
-    }))),
-    /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      type: "submit",
       className: "enter"
     },
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fi__WEBPACK_IMPORTED_MODULE_1__["FiChevronsRight"], {
-      size: 25
-    })))
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fi__WEBPACK_IMPORTED_MODULE_5__["FiChevronsRight"], {
+      size: 30
+    }))))
   );
 };
 
@@ -80713,7 +81360,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n    width: 100%;\n    height: 70px;\n    display: flex;/*\n    justify-content: space-between;\n    align-items: center; */\n    padding: 7px 20px;\n    background-color: #4A494B;\n\n    .enter {\n        width: 56px;\n        height: 56px;\n        display: flex;\n        justify-content: center;\n        align-items: center;\n        cursor: pointer;\n        transition: all 0.3s linear;\n        border-radius: 25px;\n        color: #EF2D56;\n    }\n\n    .enter:hover{\n        background-color: #464548;\n    }\n\n    .write {\n        flex: 1 1 auto;\n    }\n\n    form {\n        height: 100%;\n        padding: 5px;\n    }\n\n    input{\n        width: 100%;\n        height: 100%;\n        border-radius: 20px;\n        border: solid 1px #6d6d6d;\n        line-height: 20px;\n        font-size: 15px;\n        padding: 10px 10px 10px 10px;\n        color: #fff;\n        background-color: #6E6D6F;\n    }\n\n\n\n    /* retira a borda azul qundo clica nele (da pra suar em button tambem) */\n    input:focus{\n        outline: thin dotted;\n        outline: 0px auto -webkit-focus-ring-color;\n        outline-offset: 0px;\n    }\n"]);
+  var data = _taggedTemplateLiteral(["\n    width: 100%;\n    height: 70px;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    padding: 7px 20px;\n    background-color: #4A494B;\n\n    .fomMsg {\n        height: 100%;\n        width: 100%;\n        padding: 5px;\n        display: flex;\n        justify-content: space-between;\n        align-items: center;\n        /* background-color: #234; */\n\n        button {\n            background-color: transparent;\n            border: 0;\n            margin-left: 10px;\n            width: 50px;\n            height: 50px;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            cursor: pointer;\n            transition: all 0.2s linear;\n            border-radius: 25px;\n            color: #EF2D56;\n        }\n\n        button:hover {\n            background-color: #413e44;\n        }\n\n        button:focus{\n            outline: 0;\n        }\n    }\n"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -80778,8 +81425,6 @@ var Header = function Header(_ref) {
       setClassAnimation('');
     }
   }
-
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {}, []);
 
   function handleLogout() {
     logout();
@@ -80872,6 +81517,219 @@ var Container = styled_components__WEBPACK_IMPORTED_MODULE_0__["default"].header
 
 /***/ }),
 
+/***/ "./resources/js/components/HeaderChat/index.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/HeaderChat/index.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _contexts_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../contexts/auth */ "./resources/js/contexts/auth.js");
+/* harmony import */ var react_icons_fi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-icons/fi */ "./node_modules/react-icons/fi/index.esm.js");
+/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./styles */ "./resources/js/components/HeaderChat/styles.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+var HeaderChat = function HeaderChat(_ref) {
+  var icon = _ref.icon,
+      infoUser = _ref.infoUser,
+      itensDropDown = _ref.itensDropDown;
+  var divRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+
+  var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_contexts_auth__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      logout = _useContext.logout,
+      chatCurrent = _useContext.chatCurrent;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState2 = _slicedToArray(_useState, 2),
+      classAnimation = _useState2[0],
+      setClassAnimation = _useState2[1];
+
+  function handleAnimation(e) {
+    if (e.animationName === 'fade-in') {
+      setClassAnimation('did-fade-in');
+    } else if (e.animationName === 'fade-out') {
+      setClassAnimation('');
+    }
+  }
+
+  return (
+    /*#__PURE__*/
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles__WEBPACK_IMPORTED_MODULE_3__["Container"], null,
+    /*#__PURE__*/
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "userContact"
+    },
+    /*#__PURE__*/
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: icon,
+      alt: ""
+    }),
+    /*#__PURE__*/
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "info"
+    },
+    /*#__PURE__*/
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, !!chatCurrent && chatCurrent.nameUserChat))),
+    /*#__PURE__*/
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      ref: divRef,
+      className: "iconsFuncs",
+      onAnimationEnd: function onAnimationEnd() {
+        return handleAnimation(event);
+      }
+    },
+    /*#__PURE__*/
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fi__WEBPACK_IMPORTED_MODULE_2__["FiMoreVertical"], {
+      size: 25
+    }),
+    /*#__PURE__*/
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: 'dropDown ' + classAnimation
+    },
+    /*#__PURE__*/
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, !!itensDropDown && itensDropDown.map(function (item, key) {
+      return (
+        /*#__PURE__*/
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          key: key,
+          onClick: function onClick() {
+            return handleLogout(e);
+          }
+        }, item.title)
+      );
+    })))))
+  );
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (HeaderChat);
+
+/***/ }),
+
+/***/ "./resources/js/components/HeaderChat/styles.js":
+/*!******************************************************!*\
+  !*** ./resources/js/components/HeaderChat/styles.js ***!
+  \******************************************************/
+/*! exports provided: Container */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
+/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n    background-color: #4A494B;\n    height: 70px;\n    width: 100%;\n    padding: 10px 20px;\n    display: flex;\n    color: #EF2D56;\n\n    .userContact {\n        display: flex;\n        justify-content: flex-start;\n        /* background-color: #678; */\n\n        img {\n            width: 50px;\n            height: 50px;\n        }\n\n        .info{\n            /* background-color: #aaa; */\n            padding: 2px;\n            margin-left: 10px;\n            display: flex;\n            justify-content: center;\n            align-items: flex-start;\n            flex-direction: column;\n            color: #f7ebee;\n\n            p {\n                font-size: 20px;\n                font-weight: bold;\n                transition: all 0.3s linear;\n            }\n\n            i {\n                line-height: 16px;\n                transition: all 0.3s linear;\n            }\n        }\n    }\n\n    .iconsFuncs{\n        display: flex;\n        justify-content: flex-start;\n        margin-left: auto;\n        align-items: center;\n        cursor: pointer;\n        transition: all 0.3s linear;\n    }\n\n    .dropDown{\n        display: none;\n        position: absolute;\n        background-color: #727273;\n        top: 54px;\n        margin-left: -117px;\n        color: #fff;\n        z-index: 2;\n        border-radius: 3px;\n\n        ul {\n            box-sizing: border-box;\n            list-style: none;\n            margin: 0;\n            padding:0;\n\n            li {\n                padding: 5px 10px 5px 10px;\n                width: 100%;\n                text-align: right;\n                transition: background-color linear 0.3s;\n                cursor: pointer;\n\n                a {\n                    color: #fff;\n                }\n            }\n\n            li:hover {\n                background-color: #868687;\n            }\n        }\n    }\n\n    .iconsFuncs:hover {\n        color: #da526f;\n\n        .dropDown{\n            display: block;\n            animation: fade-in 0.5s;\n        }\n    }\n\n    .iconsFuncs:not(:hover){\n        color: #EF2D56;\n\n        .dropDown.did-fade-in{\n            display: block;\n            animation: fade-out 0.5s;\n        }\n    }\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+
+var Container = styled_components__WEBPACK_IMPORTED_MODULE_0__["default"].header(_templateObject());
+
+/***/ }),
+
+/***/ "./resources/js/components/Input/index.js":
+/*!************************************************!*\
+  !*** ./resources/js/components/Input/index.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Input; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _unform_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @unform/core */ "./node_modules/@unform/core/dist/index.es.js");
+/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./styles */ "./resources/js/components/Input/styles.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+function Input(_ref) {
+  var name = _ref.name,
+      rest = _objectWithoutProperties(_ref, ["name"]);
+
+  var inputRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
+
+  var _useField = Object(_unform_core__WEBPACK_IMPORTED_MODULE_1__["useField"])(name),
+      fieldName = _useField.fieldName,
+      _useField$defaultValu = _useField.defaultValue,
+      defaultValue = _useField$defaultValu === void 0 ? "" : _useField$defaultValu,
+      registerField = _useField.registerField;
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    registerField({
+      name: fieldName,
+      ref: inputRef.current,
+      path: "value"
+    });
+  }, [fieldName, registerField]);
+  return (
+    /*#__PURE__*/
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles__WEBPACK_IMPORTED_MODULE_2__["Container"], _extends({
+      ref: inputRef,
+      id: fieldName,
+      defaultValue: defaultValue
+    }, rest))
+  );
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/Input/styles.js":
+/*!*************************************************!*\
+  !*** ./resources/js/components/Input/styles.js ***!
+  \*************************************************/
+/*! exports provided: Container */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
+/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n    width: 100%;\n    height: 100%;\n    border-radius: 20px;\n    border: solid 1px #6d6d6d;\n    line-height: 20px;\n    font-size: 15px;\n    padding: 10px 10px 10px 10px;\n    color: #fff;\n    background-color: #6E6D6F;\n    transition: all 0.3s linear;\n\n    /* retira a borda azul qundo clica nele (da pra suar em button tambem) */\n    &:focus{\n        outline: thin dotted;\n        outline: 0px auto -webkit-focus-ring-color;\n        outline-offset: 0px;\n    }\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+
+var Container = styled_components__WEBPACK_IMPORTED_MODULE_0__["default"].input(_templateObject());
+
+/***/ }),
+
 /***/ "./resources/js/contexts/auth.js":
 /*!***************************************!*\
   !*** ./resources/js/contexts/auth.js ***!
@@ -80885,34 +81743,64 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/api */ "./resources/js/services/api.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 var AuthContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])({
-  signed: true,
-  user: {},
+  chatCurrent: {},
+  setChatCurrent: function setChatCurrent() {},
+  userLogued: {},
   logout: function logout() {}
 });
 var AuthProvider = function AuthProvider(_ref) {
   var children = _ref.children;
 
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+      _useState2 = _slicedToArray(_useState, 2),
+      userLogued = _useState2[0],
+      setUserLogued = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+      _useState4 = _slicedToArray(_useState3, 2),
+      chatCurrent = _useState4[0],
+      setChatCurrent = _useState4[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    return getInfoUser();
+  }, []);
+
   var logout = function logout() {
-    try {
-      _services_api__WEBPACK_IMPORTED_MODULE_1__["api"].post('/logout', {
-        _token: _services_api__WEBPACK_IMPORTED_MODULE_1__["csfr"]
-      });
-      location.reload();
-    } catch (error) {
+    _services_api__WEBPACK_IMPORTED_MODULE_1__["api"].post('/logout', {
+      _token: _services_api__WEBPACK_IMPORTED_MODULE_1__["csfr"]
+    })["catch"](function (error) {
+      console.log(error);
+    });
+    location.reload();
+  };
+
+  var getInfoUser = function getInfoUser() {
+    _services_api__WEBPACK_IMPORTED_MODULE_1__["api"].get('/user').then(function (res) {
+      setUserLogued(res);
+    })["catch"](function (error) {
       console.log(error);
       alert("Erro no logout, tente novamente");
-    }
+    });
   };
 
   return (
     /*#__PURE__*/
     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(AuthContext.Provider, {
       value: {
-        signed: true,
-        user: {},
+        chatCurrent: chatCurrent,
+        setChatCurrent: setChatCurrent,
+        userLogued: userLogued,
         logout: logout
       }
     }, children)

@@ -1,107 +1,99 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext, useState } from 'react';
+import AuthContext from '../../contexts/auth';
 import { api } from '../../services/api';
 import { Container } from './styles';
-import Header from '../Header';
+import HeaderChat from '../HeaderChat';
 import FooterChat from '../FooterChat';
 
 import IconMas from '../../assets/img/icon-mas.svg';
 
-const Msg = [
-    { class:'user', msg:'Oi.. voce vai hoje ?', horario: '11:20'},
-    { class:'', msg:'Oi.. acho que sim', horario: '11:20'},
-    { class:'user', msg:'que horas voce vai?', horario: '11:20'},
-    { class:'user', msg:'é a noite, acho que a galera vai toda de uma vez, mas não tava querendo', horario: '11:20'},
-    { class:'', msg:'acho que umas 20h', horario: '11:20'},
-    { class:'user', msg:'tudo bem vou te esperar la', horario: '11:20'},
-    { class:'', msg:'ok, me espera na porta', horario: '11:20'},
-    { class:'user', msg:'ok, tchau', horario: '11:20'},
-    { class:'', msg:'tchau', horario:'11:20'},
-    { class:'user', msg:'Oi.. voce vai hoje ?', horario: '11:20'},
-    { class:'', msg:'Oi.. acho que sim', horario: '11:20'},
-    { class:'user', msg:'que horas voce vai?', horario: '11:20'},
-    { class:'user', msg:'é a noite, acho que a galera vai toda de uma vez, mas não tava querendo', horario: '11:20'},
-    { class:'', msg:'acho que umas 20h', horario: '11:20'},
-    { class:'user', msg:'tudo bem vou te esperar la', horario: '11:20'},
-    { class:'', msg:'ok, me espera na porta', horario: '11:20'},
-    { class:'user', msg:'ok, tchau', horario: '11:20'},
-    { class:'', msg:'tchau', horario:'11:20'},
-    { class:'user', msg:'Oi.. voce vai hoje ?', horario: '11:20'},
-    { class:'', msg:'Oi.. acho que sim', horario: '11:20'},
-    { class:'user', msg:'que horas voce vai?', horario: '11:20'},
-    { class:'user', msg:'é a noite, acho que a galera vai toda de uma vez, mas não tava querendo', horario: '11:20'},
-    { class:'', msg:'acho que umas 20h', horario: '11:20'},
-    { class:'user', msg:'tudo bem vou te esperar la', horario: '11:20'},
-    { class:'', msg:'ok, me espera na porta', horario: '11:20'},
-    { class:'user', msg:'ok, tchau', horario: '11:20'},
-    { class:'', msg:'tchau', horario:'11:20'},
-    { class:'user', msg:'Oi.. voce vai hoje ?', horario: '11:20'},
-    { class:'', msg:'Oi.. acho que sim', horario: '11:20'},
-    { class:'user', msg:'que horas voce vai?', horario: '11:20'},
-    { class:'user', msg:'é a noite, acho que a galera vai toda de uma vez, mas não tava querendo', horario: '11:20'},
-    { class:'', msg:'acho que umas 20h', horario: '11:20'},
-    { class:'user', msg:'tudo bem vou te esperar la', horario: '11:20'},
-    { class:'', msg:'ok, me espera na porta', horario: '11:20'},
-    { class:'user', msg:'ok, tchau', horario: '11:20'},
-    { class:'', msg:'tchau', horario:'11:20'},
-    { class:'user', msg:'ok, tchau', horario: '11:20'},
-    { class:'', msg:'tchau', horario:'11:20'},
-    { class:'user', msg:'Oi.. voce vai hoje ?', horario: '11:20'},
-    { class:'', msg:'Oi.. acho que sim', horario: '11:20'},
-    { class:'user', msg:'que horas voce vai?', horario: '11:20'},
-    { class:'user', msg:'é a noite, acho que a galera vai toda de uma vez, mas não tava querendo', horario: '11:20'},
-    { class:'', msg:'acho que umas 20h', horario: '11:20'},
-    { class:'user', msg:'tudo bem vou te esperar la', horario: '11:20'},
-    { class:'', msg:'ok, me espera na porta', horario: '11:20'},
-    { class:'user', msg:'ok, tchau', horario: '11:20'},
-    { class:'', msg:'tchau', horario:'11:20'},
-];
-
-const contact = { name: 'keren', status: 'online'}
-
 const Chat = () =>{
     const divRef = useRef();
+    const { userLogued, chatCurrent } = useContext(AuthContext);
+    const [ messages, setMessages ] = useState([]);
 
     function scrollToBottom() {
         divRef.current.scrollTo(0, divRef.current.scrollHeight);
     }
 
     useEffect(()=>{
-        scrollToBottom();
-        // getMessages();
+        if (Object.entries(userLogued).length > 0) {
+            getMessages();
+        }
 
-        window.Echo.private('message.received.WtdDIjsCzyGqtfT').listen('SendMessage', (e) => {
-            console.log(e);
+        window.Echo.private(`message.received.${chatCurrent.hashChat}`).listen('SendMessage', (e) => {
+            setMessages(msgs => [...msgs, structureMessageRealTime(e)]);
+            scrollToBottom();
         });
-
-    }, []);
+    }, [chatCurrent]);
 
     function getMessages() {
-        try {
-            api.get('/messages').then(resp => {
-                console.log(resp);
-            });
-        } catch (error) {
+        api.get('/messages', {
+            hash_chat: chatCurrent.hashChat
+        }).then(resp => {
+            console.log(resp);
+
+            setMessages(structureMessagesInitial(resp));
+            scrollToBottom();
+
+        }).catch(error => {
             console.log(error);
             alert(`Erro no logout, tente novamente`);
+        });
+    }
+
+    function structureMessagesInitial(msgs) {
+        return msgs.map(msg => {
+            return {
+                id: msg.id,
+                body: msg.body,
+                time: getTimeMsg(msg.created_at),
+                from: Number(msg.from_user_id),
+                to: Number(msg.to_user_id),
+                class: getClassMsg(Number(msg.from_user_id))
+            }
+        });
+    }
+
+    function structureMessageRealTime(msg) {
+        return {
+            id: msg.id,
+            body: msg.body,
+            time: getTimeMsg(msg.created_at),
+            from: Number(msg.from_user_id),
+            to: Number(msg.to_user_id),
+            class: getClassMsg(Number(msg.from_user_id))
         }
     }
 
-    function structureMessages(msgs) {
+    function getClassMsg(from) {
+        if (from === Number(userLogued.id)) {
+            return 'user';
+        }
 
+        return '';
+    }
+
+    function getTimeMsg(date) {
+        return new Intl.DateTimeFormat('pt-bt', {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: false,
+        }).format(new Date(date));
     }
 
     return(
         <Container >
-            <Header icon={IconMas} infoUser={contact} />
+            <HeaderChat icon={IconMas} />
 
             <main ref={divRef}>
-                {Msg.map((msg, key) => (
+                {messages.map((msg, key) => (
                     <div key={key} className={'msgDiv '+ msg.class}>
                         <div className="msg">
                             <span>
-                                {msg.msg}
+                                {msg.body}
                             </span>
-                            <i>{msg.horario}</i>
+                            <i>{msg.time}</i>
                         </div>
                     </div>
                 ))}

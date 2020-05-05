@@ -26,6 +26,8 @@
     },
     "dependencies": {
         "@fdaciuk/ajax": "^3.0.4",
+        "@unform/core": "^2.1.0",
+        "@unform/web": "^2.1.0",
         "laravel-echo": "^1.7.0",
         "react-icons": "^3.10.0",
         "react-router-dom": "^5.1.2",

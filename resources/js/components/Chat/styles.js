@@ -9,11 +9,9 @@ export const Container = styled.div`
 
     main {
         padding: 30px 30px 20px;
-        overflow-y: scroll;
-        height: 500px;
-        /* background-color: #566; */
+        overflow-y: auto;
         width: 100%;
-        flex: 1 1 auto;
+        margin-top: auto;
     }
 
     /* configurando scroll */

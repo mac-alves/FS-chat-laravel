@@ -45,19 +45,19 @@ img {
     }
 }
 
-.write ::-webkit-input-placeholder {
+.fomMsg ::-webkit-input-placeholder {
     color: #cbcacc;
 }
 
-.write :-moz-placeholder { /* Firefox 18- */
+.fomMsg :-moz-placeholder { /* Firefox 18- */
     color: #cbcacc;
 }
 
-.write ::-moz-placeholder {  /* Firefox 19+ */
+.fomMsg ::-moz-placeholder {  /* Firefox 19+ */
     color: #cbcacc;
 }
 
-.write :-ms-input-placeholder {
+.fomMsg :-ms-input-placeholder {
     color: #cbcacc;
 }
 

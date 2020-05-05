@@ -13,7 +13,12 @@
 
 Auth::routes();
 
-// retorna a principla do sistema
+/* retorna os dados do usuarios logado */
+Route::get('/user', function(){
+    return response()->json(auth()->user(), 200);
+});
+
+// retorna a pagina principal do sistema
 Route::get('/', 'PrivateChatController@viewIndex');
 
 Route::prefix('privatechats')->group(function(){
@@ -36,11 +41,11 @@ Route::prefix('messages')->group(function(){
 
     //rota de criaçõ da msg
     Route::post('/', 'MessageController@store');
+
+    // apaga uma msg
+    Route::delete('/', 'MessageController@destroy');
+
+    // apaga todas as msg do chat privado
+    Route::delete('/all', 'MessageController@destroyAll');
 });
-
-// Route::get('/nada', function(Request $request){
-//     $contact = count(auth()->user()->contacts()->where('hash_chat', 'fRlYzF1SSrTEsZ')->get()) > 0;
-
-//     return response()->json($contact, 200);
-// });
 

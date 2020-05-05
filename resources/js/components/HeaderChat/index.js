@@ -3,10 +3,10 @@ import AuthContext from '../../contexts/auth';
 import { FiMoreVertical } from 'react-icons/fi';
 import { Container } from './styles';
 
-const Header = ({ icon, infoUser, itensDropDown, sair }) => {
+const HeaderChat = ({ icon, infoUser, itensDropDown }) => {
 
     const divRef = useRef();
-    const { logout } = useContext(AuthContext);
+    const { logout, chatCurrent } = useContext(AuthContext);
     const [ classAnimation, setClassAnimation ] = useState('');
 
     function handleAnimation(e) {
@@ -18,18 +18,14 @@ const Header = ({ icon, infoUser, itensDropDown, sair }) => {
         }
     }
 
-    function handleLogout(){
-        logout();
-    }
-
     return (
         <Container >
             <div className="userContact">
                 <img src={icon} alt=""/>
 
                 <div className="info">
-                    <p>{!!infoUser && infoUser.name}</p>
-                    <i>{!!infoUser && infoUser.status}</i>
+                    <p>{!!chatCurrent && chatCurrent.nameUserChat}</p>
+                    {/* <i>{!!chatCurrent && 'online'}</i> */}
                 </div>
             </div>
 
@@ -45,7 +41,6 @@ const Header = ({ icon, infoUser, itensDropDown, sair }) => {
                         {!!itensDropDown && itensDropDown.map((item, key) => (
                             <li key={key} onClick={() => handleLogout(e)} >{item.title}</li>
                         ))}
-                        {!!sair && <li onClick={handleLogout} >Sair</li>}
                     </ul>
                 </div>
             </div>
@@ -53,4 +48,4 @@ const Header = ({ icon, infoUser, itensDropDown, sair }) => {
     );
 }
 
-export default Header;
+export default HeaderChat;

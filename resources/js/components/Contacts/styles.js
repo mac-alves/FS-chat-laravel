@@ -56,29 +56,31 @@ export const Container = styled.div`
 
             p {
                 /* background-color: #899; */
-                width: 100%;
                 padding: 0px 8px 0px 10px;
                 font-size: 18px;
                 font-weight: bold;
             }
 
-            /* p:last-child {
+            p:last-child {
+                /* background-color: #899; */
                 font-weight: 100;
                 font-size: 13px;
                 display: flex;
                 align-items: center;
                 padding-top: 5px;
                 margin-left: auto;
-            } */
+            }
         }
 
         .utimaMsg{
+            /* background-color: #899; */
 
             i {
                 padding: 0px 8px 0px 10px;
             }
 
             i:first-child {
+                /* background-color: #987; */
                 display: inline-block;
                 white-space: nowrap;
                 width:250px;
@@ -86,9 +88,9 @@ export const Container = styled.div`
                 text-overflow: ellipsis;
             }
 
-            i:last-child {
+            /* i:last-child {
                 margin-left: auto;
-            }
+            } */
         }
     }
 `;

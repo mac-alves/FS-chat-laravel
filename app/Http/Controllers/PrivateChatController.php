@@ -51,14 +51,23 @@ class PrivateChatController extends Controller
     {
         $user_id_one = auth()->user()->id;
         $privateChat = $this->privateChat->where('user_id_one', $user_id_one)
+                                         ->orWhere('user_id_two', $user_id_one)
+                                         ->with('userOne')
                                          ->with('userTwo')
+                                         ->with('menssages')
                                          ->get();
+        $toForeach = $privateChat;
+
+        foreach ($toForeach as $key => $value) {
+            $privateChat[$key]['last_menssage'] = $value->menssages()->orderBy('created_at','desc')->first();
+            unset($privateChat[$key]['menssages']);
+        }
 
         return response()->json($privateChat, 200);
     }
 
     /**
-     * add a contact for the user   'user_id_one', 'user_id_two', 'hash_chat'
+     * add a contact for the user
      */
     public function store(Request $request)
     {
@@ -106,7 +115,7 @@ class PrivateChatController extends Controller
         } else {
             $msg = 'Chat ja existe para esse usuario';
         }
-// dd($privateChat->menssages);
+
         return response()->json([
             'msg' => $msg,
             'info' => $privateChat

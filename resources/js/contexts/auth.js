@@ -1,28 +1,42 @@
-import React, { createContext } from 'react';
+import React, { createContext, useEffect, useState, useCallback} from 'react';
 import { api, csfr } from '../services/api';
 
 const AuthContext = createContext({
-    signed: true,
-    user: {},
+    chatCurrent: {},
+    setChatCurrent: () => {},
+    userLogued: {},
     logout: () => {}
 });
 
 export const AuthProvider = ({ children }) => {
 
+    const [ userLogued, setUserLogued ] = useState({});
+    const [ chatCurrent, setChatCurrent ] = useState({});
+
+    useEffect(() => getInfoUser(), []);
+
     const logout = () => {
-        try {
-            api.post('/logout', { _token: csfr });
-            location.reload();
-        } catch (error) {
+        api.post('/logout', { _token: csfr })
+        .catch(error => {
+            console.log(error);
+        });
+        location.reload();
+    }
+
+    const getInfoUser = () => {
+        api.get('/user').then(res => {
+            setUserLogued(res);
+        }).catch(error => {
             console.log(error);
             alert(`Erro no logout, tente novamente`);
-        }
-    }
+        });
+    };
 
     return (
         <AuthContext.Provider value={{
-            signed: true,
-            user: {},
+            chatCurrent,
+            setChatCurrent,
+            userLogued,
             logout
         }}>
             {children}
