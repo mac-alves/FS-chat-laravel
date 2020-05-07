@@ -6,12 +6,22 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
+    position: relative;
+
+    .imgChat{
+        opacity: 0.2;
+        width: 70%;
+        height: 70%;
+        position: absolute;
+        top: 15%;
+    }
 
     main {
         padding: 30px 30px 20px;
         overflow-y: auto;
         width: 100%;
         margin-top: auto;
+        z-index: 999;
     }
 
     /* configurando scroll */
@@ -46,13 +56,64 @@ export const Container = styled.div`
             justify-content: center;
             align-items: flex-end;
             max-width: 65%;
+            position: relative;
 
-            i {
+            &>i {
                 margin-left: 10px;
                 font-size: 12px;
                 position: relative;
                 top: 7px;
                 left: 2px;
+            }
+
+            .deletMsg{
+                position: absolute;
+                left: -28px;
+                padding-top: 6px;
+                cursor: pointer;
+                top: 0;
+                width: 50px;
+                height: 100%;
+
+                i {
+                    background-color:#ef2d56;
+                    width: 22px;
+                    height: 22px;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 10px;
+                    display: none;
+                    transition: all 0.3s linear;
+                }
+
+                i:hover{
+                    background-color:#a90d2e;
+                }
+            }
+
+            .deletMsg.user{
+                left: unset;
+                right: -27px;
+                width: 45px;
+                display: flex;
+            }
+        }
+
+        .msg:hover {
+            .deletMsg {
+                i{
+                    display: flex;
+                    animation: fade-in 0.5s;
+                }
+            }
+        }
+
+        .msg:not(:hover) {
+            .deletMsg{
+                i.did-fade-in{
+                    display: flex;
+                    animation: fade-out 0.5s;
+                }
             }
         }
     }

@@ -22,6 +22,7 @@ export default function Input({ name, ...rest }) {
         id={fieldName}
         defaultValue={defaultValue}
         {...rest}
+        autoComplete="off"
       />
   );
 }

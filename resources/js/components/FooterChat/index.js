@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import { Form } from "@unform/web";
 import { api } from '../../services/api';
 import Input from '../Input';
@@ -7,7 +7,8 @@ import { FiChevronsRight } from 'react-icons/fi';
 import { Container } from './styles';
 
 const FooterChat = () => {
-    const { userLogued, chatCurrent } = useContext(AuthContext);
+    const { chatCurrent } = useContext(AuthContext);
+    const [ formDisabled, setFormDisabled ] = useState(true);
     const formRef = useRef(null);
 
     function handleSubmit(e) {
@@ -30,12 +31,18 @@ const FooterChat = () => {
         });
     }
 
+    useEffect(() => {
+        if (Object.entries(chatCurrent).length > 0) {
+            setFormDisabled(false);
+        }
+    }, [chatCurrent]);
+
     return (
         <Container >
             <Form onSubmit={handleSubmit} className="fomMsg" ref={formRef}>
-                <Input  name="body" placeholder="digite sua mensagem" type="text"/>
+                <Input name="body" placeholder="digite sua mensagem" type="text" disabled={formDisabled} />
 
-                <button type="submit" className="enter"><FiChevronsRight size={30} /></button>
+                <button type="submit" className="enter" disabled={formDisabled}><FiChevronsRight size={30} /></button>
             </Form>
         </Container>
     )

@@ -2,8 +2,9 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import AuthContext from '../../contexts/auth';
 import { FiMoreVertical } from 'react-icons/fi';
 import { Container } from './styles';
+import { AiOutlineAliwangwang } from 'react-icons/ai';
 
-const Header = ({ icon, infoUser, itensDropDown, sair }) => {
+const Header = ({ infoUser, itensDropDown, sair }) => {
 
     const divRef = useRef();
     const { logout } = useContext(AuthContext);
@@ -25,8 +26,7 @@ const Header = ({ icon, infoUser, itensDropDown, sair }) => {
     return (
         <Container >
             <div className="userContact">
-                <img src={icon} alt=""/>
-
+                {(!!infoUser.img) ? <img src={infoUser.img} alt=""/> : <AiOutlineAliwangwang size={50} color="#ef2d56" /> }
                 <div className="info">
                     <p>{!!infoUser && infoUser.name}</p>
                     <i>{!!infoUser && infoUser.status}</i>

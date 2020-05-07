@@ -5,13 +5,16 @@ const AuthContext = createContext({
     chatCurrent: {},
     setChatCurrent: () => {},
     userLogued: {},
-    logout: () => {}
+    logout: () => {},
+    lastMsgChatCurrent: {},
+    setLastMsgChatCurrent: () => {}
 });
 
 export const AuthProvider = ({ children }) => {
 
     const [ userLogued, setUserLogued ] = useState({});
     const [ chatCurrent, setChatCurrent ] = useState({});
+    const [ lastMsgChatCurrent, setLastMsgChatCurrent ] = useState({});
 
     useEffect(() => getInfoUser(), []);
 
@@ -37,7 +40,9 @@ export const AuthProvider = ({ children }) => {
             chatCurrent,
             setChatCurrent,
             userLogued,
-            logout
+            logout,
+            lastMsgChatCurrent,
+            setLastMsgChatCurrent
         }}>
             {children}
         </AuthContext.Provider>

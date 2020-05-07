@@ -40,5 +40,9 @@ export const Container = styled.footer`
         button:focus{
             outline: 0;
         }
+
+        button:disabled{
+            background-color: transparent;
+        }
     }
 `;

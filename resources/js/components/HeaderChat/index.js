@@ -2,11 +2,12 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import AuthContext from '../../contexts/auth';
 import { FiMoreVertical } from 'react-icons/fi';
 import { Container } from './styles';
+import { AiFillWechat } from 'react-icons/ai';
 
-const HeaderChat = ({ icon, infoUser, itensDropDown }) => {
+const HeaderChat = ({ itensDropDown }) => {
 
     const divRef = useRef();
-    const { logout, chatCurrent } = useContext(AuthContext);
+    const { chatCurrent } = useContext(AuthContext);
     const [ classAnimation, setClassAnimation ] = useState('');
 
     function handleAnimation(e) {
@@ -21,8 +22,8 @@ const HeaderChat = ({ icon, infoUser, itensDropDown }) => {
     return (
         <Container >
             <div className="userContact">
-                <img src={icon} alt=""/>
-
+                { (!!chatCurrent.img) ? <img src={chatCurrent.img} alt=""/> :
+                  (!!chatCurrent.nameUserChat) ? <AiFillWechat size={50} color="#ef2d56" /> : <div></div>}
                 <div className="info">
                     <p>{!!chatCurrent && chatCurrent.nameUserChat}</p>
                     {/* <i>{!!chatCurrent && 'online'}</i> */}
