@@ -4,46 +4,46 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Events\SendMessage;
-use \App\PrivateChat;
 use \App\Message;
+use \App\Contact;
 use \App\User;
 
 class MessageController extends Controller
 {
     private $message;
-    private $privateChat;
+    private $contact;
+    private $user;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(Message $message, PrivateChat $privateChat)
+    public function __construct(Message $message, User $user, Contact $contact)
     {
         $this->middleware('auth');
         $this->message = $message;
-        $this->privateChat = $privateChat;
+        $this->user = $user;
+        $this->contact = $contact;
     }
 
     public function store(Request $request)
     {
-        // verificar se o usuario logado popssui esse chat
-        // usuario 1 enviando para o usuario 2
-        $privateChat = $this->privateChat->where('hash_chat', $request->input('in_hash_chat'))->firstOrFail();
+        $contact = $this->contact->where('user_id', auth()->user()->id)
+                              ->where('contact_user_id', $request->input('contact_user_id'))
+                              ->firstOrFail();
 
-        if (((int) $privateChat->user_id_one === (int) auth()->user()->id) ||
-            ((int) $privateChat->user_id_two === (int) auth()->user()->id)) {
+        if (is_object($contact) && $contact->contactUser->telephone === $request->input('telephone')) {
 
             $data = [
                 'body' => $request->input('body'),
-                'from_user_id' => auth()->user()->id,
-                'to_user_id' => $request->input('to_user_id'),
-                'in_hash_chat' => $privateChat->hash_chat
+                'from_user' => auth()->user()->telephone,
+                'to_user' => $contact->contactUser->telephone,
             ];
 
             $msg  = $this->message->create($data);
 
-            broadcast(new SendMessage($msg, $privateChat));
+            broadcast(new SendMessage($msg, $contact->contactUser));
             return response()->json($msg, 200);
         }
 
@@ -52,22 +52,33 @@ class MessageController extends Controller
 
     public function show(Request $request)
     {
-        // verificar se o usuario logado popssui esse chat com o hash
-        $privateChat = $this->privateChat->where('hash_chat', $request->input('hash_chat'))->firstOrFail();
+        // verificar se o usuario logado possui esse contato
+        $userAuth = auth()->user();
+        $contact = $this->contact->where('user_id', $userAuth->id)
+                                 ->where('contact_user_id', $request->input('contact_user_id'))
+                                 ->firstOrFail();
 
-        if (((int) $privateChat->user_id_one === (int) auth()->user()->id) ||
-            ((int) $privateChat->user_id_two === (int) auth()->user()->id)) {
+        if (is_object($contact)) {
+            $telAuth = $userAuth->telephone; // $userAuth->telephone; //wYx1P0sklNyy40
+            $telCont = $contact->contactUser->telephone; //g8WIU22xJYVchX ozKfyPkeMQTd7p  $value->contactUser->telephone;
 
-            return response()->json($privateChat->menssages, 200);
+            $menssage = $this->message->where([['from_user', '=', $telAuth]])
+                                      ->where([['to_user', '=', $telCont]])
+                                      ->orWhere([['from_user', '=', $telCont]])
+                                      ->where([['to_user', '=', $telAuth]])
+                                      ->orderBy('created_at','desc')->get();
+
+            return response()->json($menssage, 200);
         }
 
-        return response()->json(['erro' => 'Não autorizada.'], 401);
+        return response()->json(['erro' => 'Não autorizado.'], 401);
     }
 
     public function destroy(Request $request)
     {
-        // verificar se o usuario logado popssui esse chat com o hash
-        $message = $this->message->where('in_hash_chat', $request->input('in_hash_chat'))
+        // verificar se o usuario logado foi quem escreveu a msg
+        $userAuth = auth()->user();
+        $message = $this->message->where('from_user', $userAuth->telephone)
                                  ->findOrFail($request->input('id_msg'));
         $message->delete();
 
@@ -76,15 +87,26 @@ class MessageController extends Controller
 
     public function destroyAll(Request $request)
     {
-        // verificar se o usuario logado popssui esse chat com o hash
-        $messages = $this->message->where('in_hash_chat', $request->input('in_hash_chat'))->get();
+        // verificar se o usuario pode deletar
+        $userAuth = auth()->user();
+        $contact = $this->contact->where('user_id', $userAuth->id)
+                                 ->where('contact_user_id', $request->input('contact_user_id'))
+                                 ->firstOrFail();
 
-        if (count($messages) > 0) {
-            $this->message->where('in_hash_chat', $request->input('in_hash_chat'))->delete();
+        if (is_object($contact)) {
+            $telAuth = $userAuth->telephone; // $userAuth->telephone; //wYx1P0sklNyy40
+            $telCont = $contact->contactUser->telephone; //g8WIU22xJYVchX ozKfyPkeMQTd7p  $value->contactUser->telephone;
+
+            $menssage = $this->message->where([['from_user', '=', $telAuth]])
+                                      ->where([['to_user', '=', $telCont]])
+                                      ->orWhere([['from_user', '=', $telCont]])
+                                      ->where([['to_user', '=', $telAuth]])
+                                      ->delete();
+
             return response()->json(201);
         }
 
-        return response()->json([ 'erro' => 'Não encontrado mensagens para esse hash.' ], 401);
+        return response()->json([ 'erro' => 'Não autorizado.' ], 401);
     }
 
 }

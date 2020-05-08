@@ -19,20 +19,20 @@ Route::get('/user', function(){
 });
 
 // retorna a pagina principal do sistema
-Route::get('/', 'PrivateChatController@viewIndex');
+Route::get('/', 'ContactController@viewIndex');
 
-Route::prefix('privatechats')->group(function(){
+Route::prefix('contacts')->group(function(){
     //pesquisa qualquer contato do sistema
-    Route::get('/', 'PrivateChatController@index');
+    Route::get('/', 'ContactController@index');
 
     //retorna os contatos do usuario logado
-    Route::get('/show', 'PrivateChatController@show');
+    Route::get('/show', 'ContactController@show');
 
     //cria um novo contato
-    Route::post('/', 'PrivateChatController@store');
+    Route::post('/', 'ContactController@store');
 
     // deleta um contato do usuario logado
-    Route::delete('/{id}', 'PrivateChatController@destroy');
+    Route::delete('/{id}', 'ContactController@destroy');
 });
 
 Route::prefix('messages')->group(function(){

@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'at_sign', 'name', 'email', 'password',
+        'at_sign', 'name', 'email', 'password', 'telephone'
     ];
 
     /**
@@ -40,8 +40,8 @@ class User extends Authenticatable
     /**
      * Get the user's contacts
      */
-    public function privateChats()
+    public function contacts()
     {
-        return $this->hasMany(PrivateChat::class, 'user_id');
+        return $this->hasMany(Contact::class, 'user_id');
     }
 }

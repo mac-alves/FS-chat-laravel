@@ -27,6 +27,8 @@ export const AuthProvider = ({ children }) => {
     }
 
     const getInfoUser = () => {
+        console.log('aqui')
+        console.log(csfr);
         api.get('/user').then(res => {
             setUserLogued(res);
         }).catch(error => {

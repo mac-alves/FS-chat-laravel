@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePrivateChatsTable extends Migration
+class CreateContactsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,18 @@ class CreatePrivateChatsTable extends Migration
      */
     public function up()
     {
-        Schema::create('private_chats', function (Blueprint $table) {
+        Schema::create('contacts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id_one')->nullable();
-            $table->unsignedBigInteger('user_id_two')->nullable();
-            $table->string('hash_chat')->unique();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('contact_user_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id_one')
+            $table->foreign('user_id')
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
 
-            $table->foreign('user_id_two')
+            $table->foreign('contact_user_id')
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
@@ -39,6 +38,6 @@ class CreatePrivateChatsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('private_chats');
+        Schema::dropIfExists('contacts');
     }
 }

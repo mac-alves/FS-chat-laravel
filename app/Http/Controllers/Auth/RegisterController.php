@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -68,6 +69,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'telephone' => $this->genereteTelefone()
         ]);
     }
 
@@ -101,6 +103,21 @@ class RegisterController extends Controller
             verifyAtSingExist($at_sign);
         } else {
             return $at_sign;
+        }
+    }
+
+    /**
+     * retorna o "telefone" do usuario
+     * */
+    private function genereteTelefone() {
+        $tel = Str::random(14);
+
+        $user = User::where('telephone', '=', $tel)->get();
+
+        if (count($user) > 0) {
+            genereteTelefone();
+        } else {
+            return $tel;
         }
     }
 }
