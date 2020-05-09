@@ -17,7 +17,7 @@ export const Container = styled.div`
     }
 
     main {
-        padding: 30px 30px 20px;
+        padding: 30px 30px 0px 30px;
         overflow-y: auto;
         width: 100%;
         margin-top: auto;
@@ -115,6 +115,18 @@ export const Container = styled.div`
                     animation: fade-out 0.5s;
                 }
             }
+        }
+
+        .msg:not(.userDiv) {
+            .deletMsg{
+                display: none;
+            }
+        }
+
+        .msg .body{
+            word-break: break-all;
+            line-height: 20px;
+            font-size: 15px;
         }
     }
 

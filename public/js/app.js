@@ -86,6 +86,18 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/@babel/runtime/regenerator/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime.js");
+
+
+/***/ }),
+
 /***/ "./node_modules/@emotion/is-prop-valid/dist/is-prop-valid.browser.esm.js":
 /*!*******************************************************************************!*\
   !*** ./node_modules/@emotion/is-prop-valid/dist/is-prop-valid.browser.esm.js ***!
@@ -78316,6 +78328,743 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/regenerator-runtime/runtime.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+var runtime = (function (exports) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  exports.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunctionPrototype[toStringTagSymbol] =
+    GeneratorFunction.displayName = "GeneratorFunction";
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      prototype[method] = function(arg) {
+        return this._invoke(method, arg);
+      };
+    });
+  }
+
+  exports.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  exports.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      if (!(toStringTagSymbol in genFun)) {
+        genFun[toStringTagSymbol] = "GeneratorFunction";
+      }
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  exports.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return Promise.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return Promise.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new Promise(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  exports.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  exports.async = function(innerFn, outerFn, self, tryLocsList) {
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList)
+    );
+
+    return exports.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        // Note: ["return"] must be used for ES3 parsing compatibility.
+        if (delegate.iterator["return"]) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  Gp[toStringTagSymbol] = "Generator";
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  exports.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  exports.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+   true ? module.exports : undefined
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  Function("r", "regeneratorRuntime = r")(runtime);
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/scheduler/cjs/scheduler-tracing.development.js":
 /*!*********************************************************************!*\
   !*** ./node_modules/scheduler/cjs/scheduler-tracing.development.js ***!
@@ -84815,16 +85564,20 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _contexts_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../contexts/auth */ "./resources/js/contexts/auth.js");
-/* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/api */ "./resources/js/services/api.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _contexts_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../contexts/auth */ "./resources/js/contexts/auth.js");
 /* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./styles */ "./resources/js/components/Chat/styles.js");
 /* harmony import */ var _HeaderChat__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../HeaderChat */ "./resources/js/components/HeaderChat/index.js");
 /* harmony import */ var _FooterChat__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../FooterChat */ "./resources/js/components/FooterChat/index.js");
 /* harmony import */ var react_icons_fi__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-icons/fi */ "./node_modules/react-icons/fi/index.esm.js");
 /* harmony import */ var _assets_img_chat_svg__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../assets/img/chat.svg */ "./resources/js/assets/img/chat.svg");
 /* harmony import */ var _assets_img_chat_svg__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_assets_img_chat_svg__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _scripts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./scripts */ "./resources/js/components/Chat/scripts.js");
+
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -84832,6 +85585,10 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
@@ -84851,163 +85608,264 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var Chat = function Chat() {
-  var divRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+  var divRef = Object(react__WEBPACK_IMPORTED_MODULE_1__["useRef"])();
 
-  var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_contexts_auth__WEBPACK_IMPORTED_MODULE_1__["default"]),
-      userLogued = _useContext.userLogued,
+  var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_1__["useContext"])(_contexts_auth__WEBPACK_IMPORTED_MODULE_2__["default"]),
       chatCurrent = _useContext.chatCurrent,
-      setLastMsgChatCurrent = _useContext.setLastMsgChatCurrent;
+      userLogued = _useContext.userLogued,
+      lastMsgChatCurrent = _useContext.lastMsgChatCurrent;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
       _useState2 = _slicedToArray(_useState, 2),
       messages = _useState2[0],
       setMessages = _useState2[1];
 
-  function scrollToBottom() {
-    divRef.current.scrollTo(0, divRef.current.scrollHeight);
-  }
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    if (Object.entries(chatCurrent).length > 0) {
+      _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var messagesBanco;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return Object(_scripts__WEBPACK_IMPORTED_MODULE_8__["getMessages"])(chatCurrent.id);
 
-  function handleAnimation(e) {
-    if (e.animationName === 'fade-in') {
-      e.path[0].className = 'did-fade-in';
-    } else if (e.animationName === 'fade-out') {
-      e.path[0].className = '';
+              case 2:
+                messagesBanco = _context.sent;
+                setMessages(Object(_scripts__WEBPACK_IMPORTED_MODULE_8__["refactorMessagesInitial"])(messagesBanco, userLogued.telephone));
+                Object(_scripts__WEBPACK_IMPORTED_MODULE_8__["scrollToBottom"])(divRef);
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
-  }
-
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    if (Object.entries(userLogued).length > 0) {
-      getMessages();
-    }
-
-    window.Echo["private"]("message.received.".concat(chatCurrent.hashChat)).listen('SendMessage', function (e) {
-      setMessages(function (msgs) {
-        return [].concat(_toConsumableArray(msgs), [structureMessageRealTime(e)]);
-      });
-      setLastMsgChatCurrent(e);
-      scrollToBottom();
-    });
   }, [chatCurrent]);
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    console.log(lastMsgChatCurrent);
 
-  function getMessages() {
-    _services_api__WEBPACK_IMPORTED_MODULE_2__["api"].get('/messages', {
-      hash_chat: chatCurrent.hashChat
-    }).then(function (resp) {
-      setMessages(structureMessagesInitial(resp));
-      scrollToBottom();
-    })["catch"](function (error) {
-      console.log(error);
-      alert("Erro no logout, tente novamente");
-    });
-  }
-
-  function structureMessagesInitial(msgs) {
-    return msgs.map(function (msg) {
-      return structureMessageRealTime(msg);
-    });
-  }
-
-  function structureMessageRealTime(msg) {
-    return {
-      id: msg.id,
-      body: msg.body,
-      time: getTimeMsg(msg.created_at),
-      from: Number(msg.from_user_id),
-      to: Number(msg.to_user_id),
-      "class": getClassMsg(Number(msg.from_user_id))
-    };
-  }
-
-  function getClassMsg(from) {
-    if (from === Number(userLogued.id)) {
-      return 'user';
-    }
-
-    return '';
-  }
-
-  function getTimeMsg(date) {
-    return new Intl.DateTimeFormat('pt-bt', {
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: false
-    }).format(new Date(date));
-  }
-
-  function deleteMensage(id_msg, key) {
-    _services_api__WEBPACK_IMPORTED_MODULE_2__["api"]["delete"]('/messages', {
-      id_msg: id_msg,
-      in_hash_chat: chatCurrent.hashChat
-    }).then(function (resp) {
-      setMessages(function (mensages) {
-        return mensages.filter(function (msg) {
-          return msg.id !== id_msg;
-        });
+    if (Object.entries(lastMsgChatCurrent).length > 0) {
+      setMessages(function (messages) {
+        return [].concat(_toConsumableArray(messages), [lastMsgChatCurrent]);
       });
-      scrollToBottom();
-    })["catch"](function (error) {
-      console.log(error);
-      alert("Erro no logout, tente novamente");
-    });
+      var timeOut = setTimeout(function () {
+        Object(_scripts__WEBPACK_IMPORTED_MODULE_8__["scrollToBottom"])(divRef);
+        clearTimeout(timeOut);
+      }, 5);
+    }
+  }, [lastMsgChatCurrent]);
+
+  function deleteMsg(_x) {
+    return _deleteMsg.apply(this, arguments);
+  }
+
+  function _deleteMsg() {
+    _deleteMsg = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(id_msg) {
+      var delMsg;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return Object(_scripts__WEBPACK_IMPORTED_MODULE_8__["deleteMensage"])(id_msg);
+
+            case 2:
+              delMsg = _context2.sent;
+
+              if (delMsg === 201) {
+                setMessages(function (mensages) {
+                  return mensages.filter(function (msg) {
+                    return msg.id !== id_msg;
+                  });
+                });
+                Object(_scripts__WEBPACK_IMPORTED_MODULE_8__["scrollToBottom"])(divRef);
+              }
+
+            case 4:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+    return _deleteMsg.apply(this, arguments);
   }
 
   return (
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles__WEBPACK_IMPORTED_MODULE_3__["Container"], null,
+    react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_styles__WEBPACK_IMPORTED_MODULE_3__["Container"], null,
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HeaderChat__WEBPACK_IMPORTED_MODULE_4__["default"], null),
+    react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_HeaderChat__WEBPACK_IMPORTED_MODULE_4__["default"], null),
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
       src: _assets_img_chat_svg__WEBPACK_IMPORTED_MODULE_7___default.a,
       alt: "",
       className: "imgChat"
     }),
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
+    react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("main", {
       ref: divRef
     }, messages.map(function (msg, key) {
       return (
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           key: key,
           className: 'msgDiv ' + msg["class"]
         },
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "msg"
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          className: 'msg ' + msg["class"] + 'Div'
         },
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
           className: 'deletMsg ' + msg["class"],
           onClick: function onClick() {
-            return deleteMensage(msg.id, key);
+            return deleteMsg(msg.id, key);
           },
           onAnimationEnd: function onAnimationEnd() {
-            return handleAnimation(event);
+            return Object(_scripts__WEBPACK_IMPORTED_MODULE_8__["handleAnimation"])(event);
           }
         },
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", null,
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", null,
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fi__WEBPACK_IMPORTED_MODULE_6__["FiTrash2"], {
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_icons_fi__WEBPACK_IMPORTED_MODULE_6__["FiTrash2"], {
           size: 14,
           color: "#dadada"
         }))),
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, msg.body),
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+          className: "body"
+        }, msg.body),
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", null, msg.time)))
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", null, msg.time)))
       );
     })),
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_FooterChat__WEBPACK_IMPORTED_MODULE_5__["default"], null))
+    react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_FooterChat__WEBPACK_IMPORTED_MODULE_5__["default"], null))
   );
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Chat);
-/*
 
-                             */
+/***/ }),
+
+/***/ "./resources/js/components/Chat/scripts.js":
+/*!*************************************************!*\
+  !*** ./resources/js/components/Chat/scripts.js ***!
+  \*************************************************/
+/*! exports provided: handleAnimation, getMessages, refactorMessagesInitial, refactorMessageRealTime, determineClass, refactorTimeMsg, deleteMensage, scrollToBottom */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "handleAnimation", function() { return handleAnimation; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMessages", function() { return getMessages; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "refactorMessagesInitial", function() { return refactorMessagesInitial; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "refactorMessageRealTime", function() { return refactorMessageRealTime; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "determineClass", function() { return determineClass; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "refactorTimeMsg", function() { return refactorTimeMsg; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMensage", function() { return deleteMensage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scrollToBottom", function() { return scrollToBottom; });
+/* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../services/api */ "./resources/js/services/api.js");
+
+var URL_GET_MESSAGES = '/messages';
+var URL_DELETE_MESSAGES = '/messages';
+/**
+ * responsavel pela animaçaõ do botão de delet do chat
+ */
+
+var handleAnimation = function handleAnimation(event) {
+  if (event.animationName === 'fade-in') {
+    event.path[0].className = 'did-fade-in';
+  } else if (event.animationName === 'fade-out') {
+    event.path[0].className = '';
+  }
+};
+/**
+ * pegas as mensages do da conversa ao ser selecionada
+ */
+
+var getMessages = function getMessages(contact_user_id) {
+  return _services_api__WEBPACK_IMPORTED_MODULE_0__["api"].get(URL_GET_MESSAGES, {
+    contact_user_id: contact_user_id
+  })["catch"](function (error) {
+    console.log(error);
+    alert("Erro no logout, tente novamente");
+  });
+};
+/**
+ * reestrutura do array de mensagens inicial do banco
+ */
+
+var refactorMessagesInitial = function refactorMessagesInitial(msgs, telUserLoged) {
+  return msgs.map(function (msg) {
+    return refactorMessageRealTime(msg, telUserLoged);
+  });
+};
+/**
+ * parte da função acima
+ */
+
+var refactorMessageRealTime = function refactorMessageRealTime(msg, telUserLoged) {
+  return {
+    id: msg.id,
+    body: msg.body,
+    time: refactorTimeMsg(msg.created_at),
+    from: msg.from_user,
+    to: msg.to_user,
+    "class": determineClass(msg.from_user, telUserLoged)
+  };
+};
+/**
+ * determida se a msg é do usuario logado ou do contato e retorna a classe corre.
+ */
+
+var determineClass = function determineClass(from, telUserLoged) {
+  if (from === telUserLoged) {
+    return 'user';
+  }
+
+  return '';
+};
+/**
+ * refatora o horario da mensagem.
+ */
+
+var refactorTimeMsg = function refactorTimeMsg(date) {
+  return new Intl.DateTimeFormat('pt-bt', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false
+  }).format(new Date(date));
+};
+/**
+ * deleta uma mensagem no back
+ */
+
+var deleteMensage = function deleteMensage(id_msg) {
+  return _services_api__WEBPACK_IMPORTED_MODULE_0__["api"]["delete"](URL_DELETE_MESSAGES, {
+    id_msg: id_msg
+  })["catch"](function (error) {
+    console.log(error);
+    alert("Erro no logout, tente novamente");
+  });
+};
+/**
+ * responsavel por fazer a tela correr para baixo sempre que chega msg
+ */
+
+var scrollToBottom = function scrollToBottom(ref) {
+  ref.current.scrollTo(0, ref.current.scrollHeight);
+};
 
 /***/ }),
 
@@ -85023,7 +85881,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n    width: 70%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    flex-direction: column;\n    position: relative;\n\n    .imgChat{\n        opacity: 0.2;\n        width: 70%;\n        height: 70%;\n        position: absolute;\n        top: 15%;\n    }\n\n    main {\n        padding: 30px 30px 20px;\n        overflow-y: auto;\n        width: 100%;\n        margin-top: auto;\n        z-index: 999;\n    }\n\n    /* configurando scroll */\n    main::-webkit-scrollbar {\n        width:10px;\n        background:#6E6D6F;\n    }\n\n    main::-webkit-scrollbar-track {\n        background: rgba(0,0,0,0.1);\n    }\n\n    main::-webkit-scrollbar-thumb {\n        border-radius:10px;\n        background:#4A494B;\n    }\n\n    .msgDiv {\n        width: 100%;\n        display: flex;\n        margin-bottom: 7px;\n        padding-left: 5%;\n        padding-right: 5%;\n        display: flex;\n        color: #363537;\n\n        .msg {\n            background-color: #FFFFFF;\n            border-radius: 10px;\n            padding: 6px 10px;\n            display: flex;\n            justify-content: center;\n            align-items: flex-end;\n            max-width: 65%;\n            position: relative;\n\n            &>i {\n                margin-left: 10px;\n                font-size: 12px;\n                position: relative;\n                top: 7px;\n                left: 2px;\n            }\n\n            .deletMsg{\n                position: absolute;\n                left: -28px;\n                padding-top: 6px;\n                cursor: pointer;\n                top: 0;\n                width: 50px;\n                height: 100%;\n\n                i {\n                    background-color:#ef2d56;\n                    width: 22px;\n                    height: 22px;\n                    justify-content: center;\n                    align-items: center;\n                    border-radius: 10px;\n                    display: none;\n                    transition: all 0.3s linear;\n                }\n\n                i:hover{\n                    background-color:#a90d2e;\n                }\n            }\n\n            .deletMsg.user{\n                left: unset;\n                right: -27px;\n                width: 45px;\n                display: flex;\n            }\n        }\n\n        .msg:hover {\n            .deletMsg {\n                i{\n                    display: flex;\n                    animation: fade-in 0.5s;\n                }\n            }\n        }\n\n        .msg:not(:hover) {\n            .deletMsg{\n                i.did-fade-in{\n                    display: flex;\n                    animation: fade-out 0.5s;\n                }\n            }\n        }\n    }\n\n    .user {\n        justify-content:  flex-end;\n\n        .msg{\n            background-color: #8CD867;\n        }\n    }\n"]);
+  var data = _taggedTemplateLiteral(["\n    width: 70%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    flex-direction: column;\n    position: relative;\n\n    .imgChat{\n        opacity: 0.2;\n        width: 70%;\n        height: 70%;\n        position: absolute;\n        top: 15%;\n    }\n\n    main {\n        padding: 30px 30px 0px 30px;\n        overflow-y: auto;\n        width: 100%;\n        margin-top: auto;\n        z-index: 999;\n    }\n\n    /* configurando scroll */\n    main::-webkit-scrollbar {\n        width:10px;\n        background:#6E6D6F;\n    }\n\n    main::-webkit-scrollbar-track {\n        background: rgba(0,0,0,0.1);\n    }\n\n    main::-webkit-scrollbar-thumb {\n        border-radius:10px;\n        background:#4A494B;\n    }\n\n    .msgDiv {\n        width: 100%;\n        display: flex;\n        margin-bottom: 7px;\n        padding-left: 5%;\n        padding-right: 5%;\n        display: flex;\n        color: #363537;\n\n        .msg {\n            background-color: #FFFFFF;\n            border-radius: 10px;\n            padding: 6px 10px;\n            display: flex;\n            justify-content: center;\n            align-items: flex-end;\n            max-width: 65%;\n            position: relative;\n\n            &>i {\n                margin-left: 10px;\n                font-size: 12px;\n                position: relative;\n                top: 7px;\n                left: 2px;\n            }\n\n            .deletMsg{\n                position: absolute;\n                left: -28px;\n                padding-top: 6px;\n                cursor: pointer;\n                top: 0;\n                width: 50px;\n                height: 100%;\n\n                i {\n                    background-color:#ef2d56;\n                    width: 22px;\n                    height: 22px;\n                    justify-content: center;\n                    align-items: center;\n                    border-radius: 10px;\n                    display: none;\n                    transition: all 0.3s linear;\n                }\n\n                i:hover{\n                    background-color:#a90d2e;\n                }\n            }\n\n            .deletMsg.user{\n                left: unset;\n                right: -27px;\n                width: 45px;\n                display: flex;\n            }\n        }\n\n        .msg:hover {\n            .deletMsg {\n                i{\n                    display: flex;\n                    animation: fade-in 0.5s;\n                }\n            }\n        }\n\n        .msg:not(:hover) {\n            .deletMsg{\n                i.did-fade-in{\n                    display: flex;\n                    animation: fade-out 0.5s;\n                }\n            }\n        }\n\n        .msg:not(.userDiv) {\n            .deletMsg{\n                display: none;\n            }\n        }\n\n        .msg .body{\n            word-break: break-all;\n            line-height: 20px;\n            font-size: 15px;\n        }\n    }\n\n    .user {\n        justify-content:  flex-end;\n\n        .msg{\n            background-color: #8CD867;\n        }\n    }\n"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -85048,13 +85906,30 @@ var Container = styled_components__WEBPACK_IMPORTED_MODULE_0__["default"].div(_t
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _contexts_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../contexts/auth */ "./resources/js/contexts/auth.js");
-/* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/api */ "./resources/js/services/api.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _contexts_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../contexts/auth */ "./resources/js/contexts/auth.js");
 /* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./styles */ "./resources/js/components/Contacts/styles.js");
 /* harmony import */ var _Header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Header */ "./resources/js/components/Header/index.js");
 /* harmony import */ var react_icons_ai__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-icons/ai */ "./node_modules/react-icons/ai/index.esm.js");
+/* harmony import */ var _scripts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./scripts */ "./resources/js/components/Contacts/scripts.js");
+/* harmony import */ var _Chat_scripts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Chat/scripts */ "./resources/js/components/Chat/scripts.js");
+
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -85070,14 +85945,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var Contacts = function Contacts() {
-  var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_contexts_auth__WEBPACK_IMPORTED_MODULE_1__["default"]),
+  var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_1__["useContext"])(_contexts_auth__WEBPACK_IMPORTED_MODULE_2__["default"]),
       userLogued = _useContext.userLogued,
       setChatCurrent = _useContext.setChatCurrent,
-      lastMsgChatCurrent = _useContext.lastMsgChatCurrent,
+      setLastMsgChatCurrent = _useContext.setLastMsgChatCurrent,
       chatCurrent = _useContext.chatCurrent;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])({
     name: null,
     status: null
   }),
@@ -85085,7 +85961,7 @@ var Contacts = function Contacts() {
       userHeader = _useState2[0],
       setUserHeader = _useState2[1];
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
       _useState4 = _slicedToArray(_useState3, 2),
       contacts = _useState4[0],
       setContacts = _useState4[1];
@@ -85097,151 +85973,267 @@ var Contacts = function Contacts() {
     title: 'Conta',
     functionlink: ''
   }];
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     if (Object.entries(userLogued).length > 0) {
-      getListPrivateChats(userLogued.id);
       setUserHeader({
-        name: "Ol\xE1, ".concat(userLogued.name),
+        name: userLogued.at_sign,
         status: null
       });
-      console.log(userLogued);
+
+      _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var contactsBanco;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return Object(_scripts__WEBPACK_IMPORTED_MODULE_6__["getListContacts"])();
+
+              case 2:
+                contactsBanco = _context.sent;
+                setContacts(Object(_scripts__WEBPACK_IMPORTED_MODULE_6__["refactorContactList"])(contactsBanco));
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   }, [userLogued]);
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    if (Object.entries(lastMsgChatCurrent).length > 0) {
-      setNewLastMsgContactCurrent(chatCurrent.idChat, lastMsgChatCurrent);
-      console.log('msg');
-    }
-  }, [lastMsgChatCurrent]);
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    window.Echo["private"]("message.received.".concat(userLogued.telephone)).listen('SendMessage', function (event) {
+      if (Object.entries(event).length > 0) {
+        var isListed = contacts.length === 0 ? false : contacts.every(function (contact) {
+          return contact.telephone === event.from_user;
+        });
 
-  function setNewLastMsgContactCurrent(idChatCurrent, lastNewMsg) {
-    contacts.forEach(function (contact, key) {
-      if (contact.idChat === idChatCurrent) {
-        contacts[key].lastMenssage = getLastMenssage(lastNewMsg);
+        if (isListed === true) {
+          setLastMsgChatCurrent(Object(_Chat_scripts__WEBPACK_IMPORTED_MODULE_7__["refactorMessageRealTime"])(event));
+        } else {
+          _asyncToGenerator(
+          /*#__PURE__*/
+          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+            var newContact;
+            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+              while (1) {
+                switch (_context2.prev = _context2.next) {
+                  case 0:
+                    _context2.next = 2;
+                    return Object(_scripts__WEBPACK_IMPORTED_MODULE_6__["postContact"])(event.from_user, event.body, 'SIM');
+
+                  case 2:
+                    newContact = _context2.sent;
+                    setContacts(function (contacts) {
+                      return [].concat(_toConsumableArray(contacts), [Object(_scripts__WEBPACK_IMPORTED_MODULE_6__["refactorContactRealTime"])(newContact.info.contact, newContact.info.last_message)]);
+                    });
+
+                  case 4:
+                  case "end":
+                    return _context2.stop();
+                }
+              }
+            }, _callee2);
+          }))();
+        }
       }
     });
-    setContacts(contacts);
-  }
-
-  var getListPrivateChats = function getListPrivateChats(idUserLoged) {
-    _services_api__WEBPACK_IMPORTED_MODULE_2__["api"].get('/privatechats/show').then(function (res) {
-      setContacts(getContacts(res, idUserLoged));
-    })["catch"](function (error) {
-      console.log(error);
-      alert("Erro no logout, tente novamente");
-    });
-  };
-
-  function getContacts(contacts, idUserLoged) {
-    return contacts.map(function (contact) {
-      var user = Number(contact.user_id_one) === Number(idUserLoged) ? 'user_two' : 'user_one';
-      return {
-        idChat: contact.id,
-        idUserChat: contact[user].id,
-        nameUserChat: contact[user].name,
-        atSign: contact[user].at_sign,
-        hashChat: contact.hash_chat,
-        createdAt: contact.created_at,
-        lastMenssage: getLastMenssage(contact.last_menssage)
-      };
-    });
-  }
-
-  function getLastMenssage(lastMenssage) {
-    if (lastMenssage) {
-      return {
-        body: lastMenssage.body,
-        from: Number(lastMenssage.from_user_id),
-        to: Number(lastMenssage.to_user_id),
-        dateTime: getDateLastMenssage(lastMenssage.created_at)
-      };
-    }
-
-    return null;
-  }
-
-  function getDateLastMenssage(date) {
-    var dateCurrent = new Date();
-    var dateMsg = new Date(date);
-    var dateDifference = new Date(dateCurrent - dateMsg + dateMsg.getTimezoneOffset() * 60000).getDate();
-    var dateFinal = 'ontem';
-
-    if (dateDifference >= 3) {
-      dateFinal = new Intl.DateTimeFormat('pt-BR', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric'
-      }).format(dateMsg);
-    }
-
-    if (dateDifference === 1) {
-      dateFinal = new Intl.DateTimeFormat('pt-BR', {
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: false
-      }).format(dateMsg);
-    }
-
-    return dateFinal;
-  }
-
+  }, [contacts]);
   return (
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles__WEBPACK_IMPORTED_MODULE_3__["Container"], null,
+    react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_styles__WEBPACK_IMPORTED_MODULE_3__["Container"], null,
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Header__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Header__WEBPACK_IMPORTED_MODULE_4__["default"], {
       itensDropDown: itensDropDown,
       sair: true,
       infoUser: userHeader
     }),
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", null, contacts.map(function (contact, key) {
+    react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("main", null, contacts.map(function (contact, key) {
       return (
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           key: key
         },
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "imgDiv"
         }, !!contact.img ?
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
           src: contact.img,
           alt: ""
         }) :
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_ai__WEBPACK_IMPORTED_MODULE_5__["AiFillWechat"], {
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_icons_ai__WEBPACK_IMPORTED_MODULE_5__["AiFillWechat"], {
           size: 54,
           color: "#ef2d56"
         })),
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "infoContac",
           onClick: function onClick() {
             return setChatCurrent(contact);
           }
         },
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "info name"
         },
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, contact.nameUserChat),
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, contact.name),
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, !!contact.lastMenssage && contact.lastMenssage.dateTime)),
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, !!contact.lastMessage && contact.lastMessage.dateTime)),
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "info utimaMsg"
         },
         /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", null, !!contact.lastMenssage && contact.lastMenssage.from === userLogued.id ? "Você: " : "", !!contact.lastMenssage && contact.lastMenssage.body))))
+        react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", null, !!contact.lastMessage && contact.lastMessage.from === userLogued.telephone ? "Você: " : "", !!contact.lastMessage && contact.lastMessage.body))))
       );
     })))
   );
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Contacts);
+
+/***/ }),
+
+/***/ "./resources/js/components/Contacts/scripts.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/Contacts/scripts.js ***!
+  \*****************************************************/
+/*! exports provided: setNewLastMsgContactCurrent, refactorContactList, refactorLastMenssage, refactorContactRealTime, getDateLastMenssage, getListContacts, postContact */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setNewLastMsgContactCurrent", function() { return setNewLastMsgContactCurrent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "refactorContactList", function() { return refactorContactList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "refactorLastMenssage", function() { return refactorLastMenssage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "refactorContactRealTime", function() { return refactorContactRealTime; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDateLastMenssage", function() { return getDateLastMenssage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getListContacts", function() { return getListContacts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postContact", function() { return postContact; });
+/* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../services/api */ "./resources/js/services/api.js");
+
+var URL_GET_CONTACTS = '/contacts/show';
+var URL_POST_CONTACT = '/contacts';
+/**
+ * retorna a a lista de contatos atualizada com a utima msg que chegou de um contato
+ */
+
+var setNewLastMsgContactCurrent = function setNewLastMsgContactCurrent(idChatCurrent, lastNewMsg, contacts) {
+  contacts.forEach(function (contact, key) {
+    if (contact.idChat === idChatCurrent) {
+      contacts[key].lastMenssage = getLastMenssage(lastNewMsg);
+    }
+  });
+  return contacts;
+};
+/**
+ * retorna um array dos contatos estruturados
+ */
+
+var refactorContactList = function refactorContactList(contacts) {
+  return contacts.map(function (contact) {
+    return {
+      id: contact.id,
+      name: contact.name,
+      atSign: contact.at_sign,
+      telephone: contact.telephone,
+      createdAt: contact.created_at,
+      lastMessage: refactorLastMenssage(contact.last_message)
+    };
+  });
+};
+/**
+ * retirna um nova estrutura de objeto da utima msg
+ */
+
+var refactorLastMenssage = function refactorLastMenssage(lastMenssage) {
+  if (lastMenssage) {
+    return {
+      id: lastMenssage.id,
+      body: lastMenssage.body,
+      from: lastMenssage.from_user,
+      to: lastMenssage.to_user,
+      dateTime: getDateLastMenssage(lastMenssage.created_at)
+    };
+  }
+
+  return null;
+};
+/**
+ * refatora os dados do contato criado por recebe uma mensage
+ */
+
+var refactorContactRealTime = function refactorContactRealTime(contact, last_message) {
+  return {
+    id: contact.id,
+    name: contact.name,
+    atSign: contact.at_sign,
+    telephone: contact.telephone,
+    createdAt: contact.created_at,
+    lastMessage: refactorLastMenssage(last_message)
+  };
+};
+/**
+ * retorna a string com o tempo da utima msg do contato
+ */
+
+var getDateLastMenssage = function getDateLastMenssage(date) {
+  var dateCurrent = new Date();
+  var dateMsg = new Date(date);
+  var dateDifference = new Date(dateCurrent - dateMsg + dateMsg.getTimezoneOffset() * 60000).getDate();
+  var dateFinal = 'ontem';
+
+  if (dateDifference >= 3) {
+    dateFinal = new Intl.DateTimeFormat('pt-BR', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric'
+    }).format(dateMsg);
+  }
+
+  if (dateDifference === 1) {
+    dateFinal = new Intl.DateTimeFormat('pt-BR', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false
+    }).format(dateMsg);
+  }
+
+  return dateFinal;
+};
+/**
+ * retorna a lista de contatos do banco
+ */
+
+var getListContacts = function getListContacts(idUserLoged) {
+  return _services_api__WEBPACK_IMPORTED_MODULE_0__["api"].get(URL_GET_CONTACTS)["catch"](function (error) {
+    console.log(error);
+    alert("Erro no logout, tente novamente");
+  });
+};
+/**
+ * cria um contato
+ */
+
+var postContact = function postContact(tel_contact, body) {
+  var inverse = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  return _services_api__WEBPACK_IMPORTED_MODULE_0__["api"].post(URL_POST_CONTACT, {
+    body: body,
+    tel_contact: tel_contact,
+    inverse: inverse
+  })["catch"](function (error) {
+    console.log(error);
+    alert("Erro no logout, tente novamente");
+  });
+};
 
 /***/ }),
 
@@ -85282,14 +86274,23 @@ var Container = styled_components__WEBPACK_IMPORTED_MODULE_0__["default"].div(_t
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _unform_web__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @unform/web */ "./node_modules/@unform/web/dist/index.es.js");
-/* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/api */ "./resources/js/services/api.js");
-/* harmony import */ var _Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Input */ "./resources/js/components/Input/index.js");
-/* harmony import */ var _contexts_auth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../contexts/auth */ "./resources/js/contexts/auth.js");
-/* harmony import */ var react_icons_fi__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-icons/fi */ "./node_modules/react-icons/fi/index.esm.js");
-/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles */ "./resources/js/components/FooterChat/styles.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _unform_web__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @unform/web */ "./node_modules/@unform/web/dist/index.es.js");
+/* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/api */ "./resources/js/services/api.js");
+/* harmony import */ var _Input__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Input */ "./resources/js/components/Input/index.js");
+/* harmony import */ var _contexts_auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../contexts/auth */ "./resources/js/contexts/auth.js");
+/* harmony import */ var react_icons_fi__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-icons/fi */ "./node_modules/react-icons/fi/index.esm.js");
+/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./styles */ "./resources/js/components/FooterChat/styles.js");
+/* harmony import */ var _Chat_scripts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Chat/scripts */ "./resources/js/components/Chat/scripts.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -85306,67 +86307,101 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var FooterChat = function FooterChat() {
-  var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_contexts_auth__WEBPACK_IMPORTED_MODULE_4__["default"]),
-      chatCurrent = _useContext.chatCurrent;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(true),
+var FooterChat = function FooterChat() {
+  var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_1__["useContext"])(_contexts_auth__WEBPACK_IMPORTED_MODULE_5__["default"]),
+      chatCurrent = _useContext.chatCurrent,
+      setLastMsgChatCurrent = _useContext.setLastMsgChatCurrent,
+      userLogued = _useContext.userLogued;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(true),
       _useState2 = _slicedToArray(_useState, 2),
       formDisabled = _useState2[0],
       setFormDisabled = _useState2[1];
 
-  var formRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
+  var formRef = Object(react__WEBPACK_IMPORTED_MODULE_1__["useRef"])(null);
 
-  function handleSubmit(e) {
-    if (e.body !== '') {
-      sendMessage(e.body);
-    }
+  function handleSubmit(_x) {
+    return _handleSubmit.apply(this, arguments);
   }
 
-  function sendMessage(body) {
-    _services_api__WEBPACK_IMPORTED_MODULE_2__["api"].post('/messages', {
+  function _handleSubmit() {
+    _handleSubmit = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(e) {
+      var msg;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (!(e.body !== '')) {
+                _context.next = 5;
+                break;
+              }
+
+              _context.next = 3;
+              return sendMessage(e.body, chatCurrent.telephone, chatCurrent.id);
+
+            case 3:
+              msg = _context.sent;
+
+              if (Object.entries(msg).length > 0) {
+                setLastMsgChatCurrent(Object(_Chat_scripts__WEBPACK_IMPORTED_MODULE_8__["refactorMessageRealTime"])(msg, userLogued.telephone));
+                formRef.current.setData({
+                  body: ''
+                });
+              }
+
+            case 5:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+    return _handleSubmit.apply(this, arguments);
+  }
+
+  function sendMessage(body, telephone, contact_user_id) {
+    return _services_api__WEBPACK_IMPORTED_MODULE_3__["api"].post('/messages', {
       body: body,
-      in_hash_chat: chatCurrent.hashChat,
-      to_user_id: chatCurrent.idUserChat
-    }).then(function (resp) {
-      formRef.current.setData({
-        body: ''
-      });
+      telephone: telephone,
+      contact_user_id: contact_user_id
     })["catch"](function (error) {
       console.log(error);
       alert("Erro no logout, tente novamente");
     });
   }
 
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     if (Object.entries(chatCurrent).length > 0) {
       setFormDisabled(false);
     }
   }, [chatCurrent]);
   return (
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles__WEBPACK_IMPORTED_MODULE_6__["Container"], null,
+    react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_styles__WEBPACK_IMPORTED_MODULE_7__["Container"], null,
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_unform_web__WEBPACK_IMPORTED_MODULE_1__["Form"], {
+    react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_unform_web__WEBPACK_IMPORTED_MODULE_2__["Form"], {
       onSubmit: handleSubmit,
       className: "fomMsg",
       ref: formRef
     },
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Input__WEBPACK_IMPORTED_MODULE_4__["default"], {
       name: "body",
       placeholder: "digite sua mensagem",
       type: "text",
       disabled: formDisabled
     }),
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
       type: "submit",
       className: "enter",
       disabled: formDisabled
     },
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fi__WEBPACK_IMPORTED_MODULE_5__["FiChevronsRight"], {
+    react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_icons_fi__WEBPACK_IMPORTED_MODULE_6__["FiChevronsRight"], {
       size: 30
     }))))
   );
@@ -85535,7 +86570,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n    background-color: #4A494B;\n    height: 70px;\n    width: 100%;\n    padding: 10px 20px;\n    display: flex;\n    color: #EF2D56;\n\n    .userContact {\n        display: flex;\n        justify-content: flex-start;\n        /* background-color: #678; */\n\n        img {\n            width: 50px;\n            height: 50px;\n        }\n\n        .info{\n            /* background-color: #aaa; */\n            padding: 2px;\n            margin-left: 10px;\n            display: flex;\n            justify-content: center;\n            align-items: flex-start;\n            flex-direction: column;\n            color: #f7ebee;\n\n            p {\n                font-size: 20px;\n                font-weight: bold;\n                transition: all 0.3s linear;\n            }\n\n            i {\n                line-height: 16px;\n                transition: all 0.3s linear;\n            }\n        }\n    }\n\n    .iconsFuncs{\n        display: flex;\n        justify-content: flex-start;\n        margin-left: auto;\n        align-items: center;\n        cursor: pointer;\n        transition: all 0.3s linear;\n    }\n\n    .dropDown{\n        display: none;\n        position: absolute;\n        background-color: #727273;\n        top: 54px;\n        margin-left: -117px;\n        color: #fff;\n        z-index: 2;\n        border-radius: 3px;\n\n        ul {\n            box-sizing: border-box;\n            list-style: none;\n            margin: 0;\n            padding:0;\n\n            li {\n                padding: 5px 10px 5px 10px;\n                width: 100%;\n                text-align: right;\n                transition: background-color linear 0.3s;\n                cursor: pointer;\n\n                a {\n                    color: #fff;\n                }\n            }\n\n            li:hover {\n                background-color: #868687;\n            }\n        }\n    }\n\n    .iconsFuncs:hover {\n        color: #da526f;\n\n        .dropDown{\n            display: block;\n            animation: fade-in 0.5s;\n        }\n    }\n\n    .iconsFuncs:not(:hover){\n        color: #EF2D56;\n\n        .dropDown.did-fade-in{\n            display: block;\n            animation: fade-out 0.5s;\n        }\n    }\n"]);
+  var data = _taggedTemplateLiteral(["\n    background-color: #4A494B;\n    height: 70px;\n    width: 100%;\n    padding: 10px 20px;\n    display: flex;\n    color: #EF2D56;\n\n    .userContact {\n        display: flex;\n        justify-content: flex-start;\n        /* background-color: #678; */\n\n        img {\n            width: 50px;\n            height: 50px;\n        }\n\n        .info{\n            /* background-color: #aaa; */\n            padding: 2px;\n            margin-left: 10px;\n            display: flex;\n            justify-content: center;\n            align-items: flex-start;\n            flex-direction: column;\n            color: #f7ebee;\n\n            p {\n                font-size: 20px;\n                font-weight: bold;\n                transition: all 0.3s linear;\n            }\n\n            i {\n                line-height: 16px;\n                transition: all 0.3s linear;\n            }\n        }\n\n        svg, img {\n            cursor: pointer;\n            transition: all 0.3s linear;\n        }\n        svg:hover, img:hover {\n            transform: scale(1.1) rotate(-15deg);\n        }\n\n    }\n\n    .iconsFuncs{\n        display: flex;\n        justify-content: flex-start;\n        margin-left: auto;\n        align-items: center;\n        cursor: pointer;\n        transition: all 0.3s linear;\n    }\n\n    .dropDown{\n        display: none;\n        position: absolute;\n        background-color: #727273;\n        top: 54px;\n        margin-left: -117px;\n        color: #fff;\n        z-index: 2;\n        border-radius: 3px;\n\n        ul {\n            box-sizing: border-box;\n            list-style: none;\n            margin: 0;\n            padding:0;\n\n            li {\n                padding: 5px 10px 5px 10px;\n                width: 100%;\n                text-align: right;\n                transition: background-color linear 0.3s;\n                cursor: pointer;\n\n                a {\n                    color: #fff;\n                }\n            }\n\n            li:hover {\n                background-color: #868687;\n            }\n        }\n    }\n\n    .iconsFuncs:hover {\n        color: #da526f;\n\n        .dropDown{\n            display: block;\n            animation: fade-in 0.5s;\n        }\n    }\n\n    .iconsFuncs:not(:hover){\n        color: #EF2D56;\n\n        .dropDown.did-fade-in{\n            display: block;\n            animation: fade-out 0.5s;\n        }\n    }\n"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -85611,7 +86646,7 @@ var HeaderChat = function HeaderChat(_ref) {
     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
       src: chatCurrent.img,
       alt: ""
-    }) : !!chatCurrent.nameUserChat ?
+    }) : !!chatCurrent.name ?
     /*#__PURE__*/
     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_ai__WEBPACK_IMPORTED_MODULE_4__["AiFillWechat"], {
       size: 50,
@@ -85624,7 +86659,7 @@ var HeaderChat = function HeaderChat(_ref) {
       className: "info"
     },
     /*#__PURE__*/
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, !!chatCurrent && chatCurrent.nameUserChat))),
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, !!chatCurrent && chatCurrent.name))),
     /*#__PURE__*/
     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       ref: divRef,
@@ -85672,7 +86707,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n    background-color: #4A494B;\n    height: 70px;\n    width: 100%;\n    padding: 10px 20px;\n    display: flex;\n    color: #EF2D56;\n\n    .userContact {\n        display: flex;\n        justify-content: flex-start;\n        /* background-color: #678; */\n\n        img {\n            width: 50px;\n            height: 50px;\n        }\n\n        .info{\n            /* background-color: #aaa; */\n            padding: 2px;\n            margin-left: 10px;\n            display: flex;\n            justify-content: center;\n            align-items: flex-start;\n            flex-direction: column;\n            color: #f7ebee;\n\n            p {\n                font-size: 20px;\n                font-weight: bold;\n                transition: all 0.3s linear;\n            }\n\n            i {\n                line-height: 16px;\n                transition: all 0.3s linear;\n            }\n        }\n    }\n\n    .iconsFuncs{\n        display: flex;\n        justify-content: flex-start;\n        margin-left: auto;\n        align-items: center;\n        cursor: pointer;\n        transition: all 0.3s linear;\n    }\n\n    .dropDown{\n        display: none;\n        position: absolute;\n        background-color: #727273;\n        top: 54px;\n        margin-left: -117px;\n        color: #fff;\n        z-index: 2;\n        border-radius: 3px;\n\n        ul {\n            box-sizing: border-box;\n            list-style: none;\n            margin: 0;\n            padding:0;\n\n            li {\n                padding: 5px 10px 5px 10px;\n                width: 100%;\n                text-align: right;\n                transition: background-color linear 0.3s;\n                cursor: pointer;\n\n                a {\n                    color: #fff;\n                }\n            }\n\n            li:hover {\n                background-color: #868687;\n            }\n        }\n    }\n\n    .iconsFuncs:hover {\n        color: #da526f;\n\n        .dropDown{\n            display: block;\n            animation: fade-in 0.5s;\n        }\n    }\n\n    .iconsFuncs:not(:hover){\n        color: #EF2D56;\n\n        .dropDown.did-fade-in{\n            display: block;\n            animation: fade-out 0.5s;\n        }\n    }\n"]);
+  var data = _taggedTemplateLiteral(["\n    background-color: #4A494B;\n    height: 70px;\n    width: 100%;\n    padding: 10px 20px;\n    display: flex;\n    color: #EF2D56;\n\n    .userContact {\n        display: flex;\n        justify-content: flex-start;\n        /* background-color: #678; */\n\n        img {\n            width: 50px;\n            height: 50px;\n        }\n\n        .info{\n            /* background-color: #aaa; */\n            padding: 2px;\n            margin-left: 10px;\n            display: flex;\n            justify-content: center;\n            align-items: flex-start;\n            flex-direction: column;\n            color: #f7ebee;\n\n            p {\n                font-size: 20px;\n                font-weight: bold;\n                transition: all 0.3s linear;\n            }\n\n            i {\n                line-height: 16px;\n                transition: all 0.3s linear;\n            }\n        }\n\n        svg, img {\n            cursor: pointer;\n            transition: all 0.3s linear;\n        }\n        svg:hover, img:hover {\n            transform: scale(1.1) rotate(-15deg);\n        }\n    }\n\n    .iconsFuncs{\n        display: flex;\n        justify-content: flex-start;\n        margin-left: auto;\n        align-items: center;\n        cursor: pointer;\n        transition: all 0.3s linear;\n    }\n\n    .dropDown{\n        display: none;\n        position: absolute;\n        background-color: #727273;\n        top: 54px;\n        margin-left: -117px;\n        color: #fff;\n        z-index: 2;\n        border-radius: 3px;\n\n        ul {\n            box-sizing: border-box;\n            list-style: none;\n            margin: 0;\n            padding:0;\n\n            li {\n                padding: 5px 10px 5px 10px;\n                width: 100%;\n                text-align: right;\n                transition: background-color linear 0.3s;\n                cursor: pointer;\n\n                a {\n                    color: #fff;\n                }\n            }\n\n            li:hover {\n                background-color: #868687;\n            }\n        }\n    }\n\n    .iconsFuncs:hover {\n        color: #da526f;\n\n        .dropDown{\n            display: block;\n            animation: fade-in 0.5s;\n        }\n    }\n\n    .iconsFuncs:not(:hover){\n        color: #EF2D56;\n\n        .dropDown.did-fade-in{\n            display: block;\n            animation: fade-out 0.5s;\n        }\n    }\n"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -85756,7 +86791,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n    width: 100%;\n    height: 100%;\n    border-radius: 20px;\n    border: solid 1px #6d6d6d;\n    line-height: 20px;\n    font-size: 15px;\n    padding: 10px 10px 10px 10px;\n    color: #fff;\n    background-color: #6E6D6F;\n    transition: all 0.3s linear;\n\n    /* retira a borda azul qundo clica nele (da pra suar em button tambem) */\n    &:focus{\n        outline: thin dotted;\n        outline: 0px auto -webkit-focus-ring-color;\n        outline-offset: 0px;\n    }\n"]);
+  var data = _taggedTemplateLiteral(["\n    width: 100%;\n    height: 100%;\n    border-radius: 20px;\n    border: solid 1px #6d6d6d;\n    line-height: 20px;\n    font-size: 15px;\n    padding: 10px 10px 10px 10px;\n    color: #fff;\n    background-color: #6E6D6F;\n    transition: all 0.3s linear;\n\n\n    /* retira a borda azul qundo clica nele (da pra suar em button tambem) */\n    &:focus{\n        outline: thin dotted;\n        outline: 0px auto -webkit-focus-ring-color;\n        outline-offset: 0px;\n    }\n"]);
 
   _templateObject = function _templateObject() {
     return data;

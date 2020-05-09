@@ -39,6 +39,14 @@ export const Container = styled.header`
                 transition: all 0.3s linear;
             }
         }
+
+        svg, img {
+            cursor: pointer;
+            transition: all 0.3s linear;
+        }
+        svg:hover, img:hover {
+            transform: scale(1.1) rotate(-15deg);
+        }
     }
 
     .iconsFuncs{

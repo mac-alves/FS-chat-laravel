@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useContext, useState } from 'react';
 import AuthContext from '../../contexts/auth';
-import { api } from '../../services/api';
 import { Container } from './styles';
 import HeaderChat from '../HeaderChat';
 import FooterChat from '../FooterChat';
@@ -8,112 +7,64 @@ import { FiTrash2 } from 'react-icons/fi';
 
 import ImgChat  from '../../assets/img/chat.svg';
 
+import {
+    deleteMensage,
+    handleAnimation,
+    getMessages,
+    refactorMessagesInitial,
+    scrollToBottom
+} from './scripts';
+
 const Chat = () =>{
     const divRef = useRef();
 
-    const {
-        userLogued,
-        chatCurrent,
-        setLastMsgChatCurrent
-    } = useContext(AuthContext);
-
+    const { chatCurrent, userLogued, lastMsgChatCurrent } = useContext(AuthContext);
     const [ messages, setMessages ] = useState([]);
 
-    function scrollToBottom() {
-        divRef.current.scrollTo(0, divRef.current.scrollHeight);
-    }
-
-    function handleAnimation(e) {
-        if (e.animationName === 'fade-in') {
-            e.path[0].className = 'did-fade-in';
-
-        } else if (e.animationName === 'fade-out') {
-            e.path[0].className = '';
-        }
-    }
-
     useEffect(()=>{
-        if (Object.entries(userLogued).length > 0) {
-            getMessages();
+        if (Object.entries(chatCurrent).length > 0) {
+            (async () => {
+                const messagesBanco = await getMessages(chatCurrent.id);
+                setMessages(refactorMessagesInitial(messagesBanco, userLogued.telephone));
+                scrollToBottom(divRef);
+            })();
         }
-
-        window.Echo.private(`message.received.${chatCurrent.hashChat}`).listen('SendMessage', (e) => {
-            setMessages(msgs => [...msgs, structureMessageRealTime(e)]);
-            setLastMsgChatCurrent(e);
-            scrollToBottom();
-        });
     }, [chatCurrent]);
 
-    function getMessages() {
-        api.get('/messages', {
-            hash_chat: chatCurrent.hashChat
-        }).then(resp => {
-            setMessages(structureMessagesInitial(resp));
-            scrollToBottom();
+    useEffect(()=>{
+        console.log(lastMsgChatCurrent);
 
-        }).catch(error => {
-            console.log(error);
-            alert(`Erro no logout, tente novamente`);
-        });
-    }
+        if (Object.entries(lastMsgChatCurrent).length > 0) {
+            setMessages(messages => [...messages, lastMsgChatCurrent]);
 
-    function structureMessagesInitial(msgs) {
-        return msgs.map(msg => structureMessageRealTime(msg));
-    }
-
-    function structureMessageRealTime(msg) {
-        return {
-            id: msg.id,
-            body: msg.body,
-            time: getTimeMsg(msg.created_at),
-            from: Number(msg.from_user_id),
-            to: Number(msg.to_user_id),
-            class: getClassMsg(Number(msg.from_user_id))
+            const timeOut = setTimeout(() => {
+                scrollToBottom(divRef)
+                clearTimeout(timeOut);
+            }, 5);
         }
-    }
+    }, [lastMsgChatCurrent]);
 
-    function getClassMsg(from) {
-        if (from === Number(userLogued.id)) {
-            return 'user';
-        }
-
-        return '';
-    }
-
-    function getTimeMsg(date) {
-        return new Intl.DateTimeFormat('pt-bt', {
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: false,
-        }).format(new Date(date));
-    }
-
-    function deleteMensage(id_msg, key) {
-        api.delete('/messages', {
-            id_msg: id_msg,
-            in_hash_chat: chatCurrent.hashChat
-        }).then(resp => {
+    async function deleteMsg(id_msg) {
+        const delMsg = await deleteMensage(id_msg);
+        if (delMsg === 201) {
             setMessages(mensages => mensages.filter(msg => msg.id !==id_msg));
-            scrollToBottom();
-
-        }).catch(error => {
-            console.log(error);
-            alert(`Erro no logout, tente novamente`);
-        });
+            scrollToBottom(divRef);
+        }
     }
 
     return(
         <Container >
             <HeaderChat />
+
             <img src={ImgChat} alt="" className="imgChat"/>
             <main ref={divRef}>
                 {messages.map((msg, key) => (
                     <div key={key} className={'msgDiv '+ msg.class}>
-                        <div className="msg">
-                            <span className={'deletMsg '+ msg.class} onClick={() => deleteMensage(msg.id, key)} onAnimationEnd={() => handleAnimation(event)}>
+                        <div className={'msg '+ msg.class + 'Div'}>
+                            <span className={'deletMsg '+ msg.class} onClick={() => deleteMsg(msg.id, key)} onAnimationEnd={() => handleAnimation(event)} >
                                 <i><FiTrash2 size={14} color="#dadada"/></i>
                             </span>
-                            <span>
+                            <span className="body">
                                 {msg.body}
                             </span>
                             <i>{msg.time}</i>
@@ -128,6 +79,3 @@ const Chat = () =>{
 }
 
 export default Chat;
-/*
-
-                             */

@@ -66,7 +66,7 @@ class MessageController extends Controller
                                       ->where([['to_user', '=', $telCont]])
                                       ->orWhere([['from_user', '=', $telCont]])
                                       ->where([['to_user', '=', $telAuth]])
-                                      ->orderBy('created_at','desc')->get();
+                                      ->orderBy('created_at','asc')->get();
 
             return response()->json($menssage, 200);
         }

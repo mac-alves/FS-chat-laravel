@@ -113,7 +113,6 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 300px;
     margin: auto;
     margin-bottom: 20px;
 }
@@ -215,4 +214,20 @@ form .btn-form:hover{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media only screen and (max-width: 770px) {
+    .imgContent {
+      opacity: 0.1;
+    }
+
+    .formContent{
+        position: absolute;
+        z-index: 999;
+        height: 100%;
+    }
+
+    .formContent .formDiv {
+        width: 79%;
+    }
 }

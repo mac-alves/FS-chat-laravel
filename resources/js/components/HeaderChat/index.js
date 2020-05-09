@@ -23,9 +23,9 @@ const HeaderChat = ({ itensDropDown }) => {
         <Container >
             <div className="userContact">
                 { (!!chatCurrent.img) ? <img src={chatCurrent.img} alt=""/> :
-                  (!!chatCurrent.nameUserChat) ? <AiFillWechat size={50} color="#ef2d56" /> : <div></div>}
+                  (!!chatCurrent.name) ? <AiFillWechat size={50} color="#ef2d56" /> : <div></div>}
                 <div className="info">
-                    <p>{!!chatCurrent && chatCurrent.nameUserChat}</p>
+                    <p>{!!chatCurrent && chatCurrent.name}</p>
                     {/* <i>{!!chatCurrent && 'online'}</i> */}
                 </div>
             </div>

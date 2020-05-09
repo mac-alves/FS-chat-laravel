@@ -57,21 +57,24 @@ class ContactController extends Controller
         $contacts = $this->contact->where('user_id', $userAuth->id)
                                   ->with('contactUser')
                                   ->get();
+        $data = [];
+        if (count($contacts) > 0) {
+            foreach ($contacts as $key => $value) {
+                // dd($value->contactUser->telephone);
 
-        foreach ($contacts as $key => $value) {
-            // dd($value->contactUser);
-            $telAuth = $userAuth->telephone; // $userAuth->telephone; //wYx1P0sklNyy40
-            $telCont = $value->contactUser->telephone; //g8WIU22xJYVchX ozKfyPkeMQTd7p  $value->contactUser->telephone;
+                $telAuth = $userAuth->telephone; // $userAuth->telephone; //wYx1P0sklNyy40
+                $telCont = $value->contactUser->telephone; //g8WIU22xJYVchX ozKfyPkeMQTd7p  $value->contactUser->telephone;
 
-            $menssage = $this->message->where([['from_user', '=', $telAuth]])
-                                      ->where([['to_user', '=', $telCont]])
-                                      ->orWhere([['from_user', '=', $telCont]])
-                                      ->where([['to_user', '=', $telAuth]])
-                                      ->orderBy('created_at','desc')->first();
+                $menssage = $this->message->where([['from_user', '=', $telAuth]])
+                                        ->where([['to_user', '=', $telCont]])
+                                        ->orWhere([['from_user', '=', $telCont]])
+                                        ->where([['to_user', '=', $telAuth]])
+                                        ->orderBy('created_at','desc')->first();
 
-            $value->contactUser['last_message'] = $menssage;
-            $data[] = $value->contactUser;
-            // return response()->json($contacts, 200);
+                $value->contactUser['last_message'] = $menssage;
+                $data[] = $value->contactUser;
+                // return response()->json($contacts, 200);
+            }
         }
 
         return response()->json($data, 200);
@@ -82,14 +85,14 @@ class ContactController extends Controller
         $inversoCreateContact = $request->input('inverse');
 
         $userAuth = auth()->user();
-        $contactId = ($request->has('contact_user_id') && $request->input('contact_user_id')) ? $request->input('contact_user_id') : null;
         $telContact = ($request->has('tel_contact') && $request->input('tel_contact')) ? $request->input('tel_contact') : null;
         $bodyMsg = ($request->has('body') && $request->input('body')) ? $request->input('body') : null;
 
+        $contUser = User::where('telephone', $telContact)->firstOrFail();
 
         $contact = $this->contact->firstOrCreate([
             'user_id' => $userAuth->id,
-            'contact_user_id' => $contactId
+            'contact_user_id' => $contUser->id
         ]);
 
         if (is_null($inversoCreateContact)) {

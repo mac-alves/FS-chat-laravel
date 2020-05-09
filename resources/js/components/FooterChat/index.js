@@ -6,26 +6,25 @@ import AuthContext from '../../contexts/auth';
 import { FiChevronsRight } from 'react-icons/fi';
 import { Container } from './styles';
 
+import { refactorMessageRealTime, scrollToBottom } from '../Chat/scripts';
+
 const FooterChat = () => {
-    const { chatCurrent } = useContext(AuthContext);
+    const { chatCurrent, setLastMsgChatCurrent, userLogued } = useContext(AuthContext);
     const [ formDisabled, setFormDisabled ] = useState(true);
     const formRef = useRef(null);
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         if (e.body !== '') {
-            sendMessage(e.body);
+           const msg = await sendMessage(e.body, chatCurrent.telephone, chatCurrent.id);
+           if (Object.entries(msg).length > 0) {
+            setLastMsgChatCurrent(refactorMessageRealTime(msg, userLogued.telephone));
+            formRef.current.setData({ body: '' });
+           }
         }
     }
 
-    function sendMessage(body) {
-        api.post('/messages', {
-            body,
-            in_hash_chat: chatCurrent.hashChat,
-            to_user_id: chatCurrent.idUserChat
-        }).then(resp => {
-            formRef.current.setData({ body: '' });
-
-        }).catch(error => {
+    function sendMessage(body, telephone, contact_user_id) {
+        return api.post('/messages', { body, telephone, contact_user_id }).catch(error => {
             console.log(error);
             alert(`Erro no logout, tente novamente`);
         });

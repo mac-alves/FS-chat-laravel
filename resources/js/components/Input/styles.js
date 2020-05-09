@@ -12,6 +12,7 @@ export const Container = styled.input`
     background-color: #6E6D6F;
     transition: all 0.3s linear;
 
+
     /* retira a borda azul qundo clica nele (da pra suar em button tambem) */
     &:focus{
         outline: thin dotted;
