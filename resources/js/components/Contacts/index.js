@@ -1,8 +1,7 @@
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../../contexts/auth';
 import { Container } from './styles';
-import Header from '../Header';
-
+import HeaderContact from '../HeaderContact';
 import { AiFillWechat } from 'react-icons/ai';
 
 import {
@@ -11,26 +10,24 @@ import {
     postContact,
     refactorContactRealTime
 } from './scripts';
+
 import { refactorMessageRealTime } from '../Chat/scripts';
+
 
 const Contacts = () => {
     const {
         userLogued,
         setChatCurrent,
+        lastMsgChatCurrent,
         setLastMsgChatCurrent,
-        chatCurrent
+        contacts,
+        setContacts
     } = useContext(AuthContext);
 
     const [ userHeader, setUserHeader ] = useState({
         name: null,
         status: null
     });
-
-    const [ contacts, setContacts ] = useState([]);
-    const itensDropDown = [
-        { title: 'Adcionar Contatos', function: ''},
-        { title: 'Conta', functionlink: ''}
-    ];
 
     useEffect(() => {
         if (Object.entries(userLogued).length > 0) {
@@ -42,7 +39,7 @@ const Contacts = () => {
                 setContacts(refactorContactList(contactsBanco));
             })();
         }
-    }, [userLogued]);
+    }, [userLogued, lastMsgChatCurrent]);
 
     useEffect(() => {
         window.Echo.private(`message.received.${userLogued.telephone}`).listen('SendMessage', (event) => {
@@ -66,7 +63,7 @@ const Contacts = () => {
 
     return (
         <Container>
-            <Header itensDropDown={itensDropDown} sair={true} infoUser={userHeader} />
+            <HeaderContact infoUser={userHeader} />
 
             <main>
                 {contacts.map((contact, key) => (

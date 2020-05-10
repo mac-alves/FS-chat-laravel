@@ -21,16 +21,20 @@ export const setNewLastMsgContactCurrent = (idChatCurrent, lastNewMsg, contacts)
  * retorna um array dos contatos estruturados
  */
 export const refactorContactList= (contacts) => {
-    return contacts.map(contact => {
+    const newArry = contacts.map(contact => {
         return {
             id: contact.id,
             name: contact.name,
             atSign: contact.at_sign,
             telephone: contact.telephone,
             createdAt: contact.created_at,
-            lastMessage: refactorLastMenssage(contact.last_message)
+            lastMessage: refactorLastMenssage(contact.last_message),
+            dateTimeLastMessage: (!!contact.last_message) ? contact.last_message.created_at : null
         }
     });
+
+
+    return sortContactsLastMessage(newArry);
 }
 
 /**
@@ -60,7 +64,8 @@ export const refactorContactRealTime= (contact, last_message) => {
         atSign: contact.at_sign,
         telephone: contact.telephone,
         createdAt: contact.created_at,
-        lastMessage: refactorLastMenssage(last_message)
+        lastMessage: refactorLastMenssage(last_message),
+        dateTimeLastMessage: last_message.created_at
     }
 }
 
@@ -112,3 +117,16 @@ export const postContact = (tel_contact, body, inverse = null) =>{
         alert(`Erro no logout, tente novamente`);
     });
 };
+
+export const sortContactsLastMessage = (contacts) => {
+    return contacts.sort(function (a, b) {
+        if (a.dateTimeLastMessage > b.dateTimeLastMessage) {
+          return -1;
+        }
+        if (a.dateTimeLastMessage < b.dateTimeLastMessage) {
+          return 1;
+        }
+        // a must be equal to b
+        return 0;
+    });
+}

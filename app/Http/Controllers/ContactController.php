@@ -60,20 +60,18 @@ class ContactController extends Controller
         $data = [];
         if (count($contacts) > 0) {
             foreach ($contacts as $key => $value) {
-                // dd($value->contactUser->telephone);
 
-                $telAuth = $userAuth->telephone; // $userAuth->telephone; //wYx1P0sklNyy40
-                $telCont = $value->contactUser->telephone; //g8WIU22xJYVchX ozKfyPkeMQTd7p  $value->contactUser->telephone;
+                $telAuth = $userAuth->telephone;
+                $telCont = $value->contactUser->telephone;
 
                 $menssage = $this->message->where([['from_user', '=', $telAuth]])
-                                        ->where([['to_user', '=', $telCont]])
-                                        ->orWhere([['from_user', '=', $telCont]])
-                                        ->where([['to_user', '=', $telAuth]])
-                                        ->orderBy('created_at','desc')->first();
+                                          ->where([['to_user', '=', $telCont]])
+                                          ->orWhere([['from_user', '=', $telCont]])
+                                          ->where([['to_user', '=', $telAuth]])
+                                          ->orderBy('created_at','desc')->first();
 
                 $value->contactUser['last_message'] = $menssage;
                 $data[] = $value->contactUser;
-                // return response()->json($contacts, 200);
             }
         }
 

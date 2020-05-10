@@ -8,7 +8,7 @@ export const Container = styled.div`
     overflow: hidden;
     border-right: 1px solid #424242;
 
-    main > div {
+    & > main > div {
         /* background-color: #fff; */
         display: flex;
         justify-content: flex-start;
@@ -17,7 +17,7 @@ export const Container = styled.div`
         padding: 10px 10px 0;
     }
 
-    main > div:hover{
+    & > main > div:hover{
         /* background-color: #ccc; */
         padding: 10px 10px 0 20px;
     }

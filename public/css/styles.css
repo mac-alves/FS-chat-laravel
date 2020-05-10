@@ -45,19 +45,24 @@ img {
     }
 }
 
-.fomMsg ::-webkit-input-placeholder {
+.fomMsg ::-webkit-input-placeholder,
+.searchCont ::-webkit-input-placeholder {
     color: #cbcacc;
 }
 
-.fomMsg :-moz-placeholder { /* Firefox 18- */
+.fomMsg :-moz-placeholder,
+.searchCont :-moz-placeholder { /* Firefox 18- */
     color: #cbcacc;
 }
 
-.fomMsg ::-moz-placeholder {  /* Firefox 19+ */
+.fomMsg ::-moz-placeholder,
+.searchCont ::-moz-placeholder {  /* Firefox 19+ */
     color: #cbcacc;
 }
 
-.fomMsg :-ms-input-placeholder {
+.fomMsg :-ms-input-placeholder,
+.searchCont :-ms-input-placeholder,
+.form-newCont :-ms-input-placeholder {
     color: #cbcacc;
 }
 

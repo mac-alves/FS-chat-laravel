@@ -7,7 +7,9 @@ const AuthContext = createContext({
     userLogued: {},
     logout: () => {},
     lastMsgChatCurrent: {},
-    setLastMsgChatCurrent: () => {}
+    setLastMsgChatCurrent: () => {},
+    contacts: [],
+    setContacts: () => {},
 });
 
 export const AuthProvider = ({ children }) => {
@@ -15,6 +17,7 @@ export const AuthProvider = ({ children }) => {
     const [ userLogued, setUserLogued ] = useState({});
     const [ chatCurrent, setChatCurrent ] = useState({});
     const [ lastMsgChatCurrent, setLastMsgChatCurrent ] = useState({});
+    const [ contacts, setContacts ] = useState([]);
 
     useEffect(() => getInfoUser(), []);
 
@@ -42,7 +45,9 @@ export const AuthProvider = ({ children }) => {
             userLogued,
             logout,
             lastMsgChatCurrent,
-            setLastMsgChatCurrent
+            setLastMsgChatCurrent,
+            contacts,
+            setContacts
         }}>
             {children}
         </AuthContext.Provider>

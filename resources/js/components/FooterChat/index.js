@@ -6,10 +6,15 @@ import AuthContext from '../../contexts/auth';
 import { FiChevronsRight } from 'react-icons/fi';
 import { Container } from './styles';
 
-import { refactorMessageRealTime, scrollToBottom } from '../Chat/scripts';
+import { refactorMessageRealTime } from '../Chat/scripts';
 
 const FooterChat = () => {
-    const { chatCurrent, setLastMsgChatCurrent, userLogued } = useContext(AuthContext);
+    const {
+        chatCurrent,
+        setLastMsgChatCurrent,
+        userLogued
+    } = useContext(AuthContext);
+
     const [ formDisabled, setFormDisabled ] = useState(true);
     const formRef = useRef(null);
 

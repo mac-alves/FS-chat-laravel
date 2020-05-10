@@ -18,7 +18,12 @@ import {
 const Chat = () =>{
     const divRef = useRef();
 
-    const { chatCurrent, userLogued, lastMsgChatCurrent } = useContext(AuthContext);
+    const {
+        chatCurrent,
+        userLogued,
+        lastMsgChatCurrent
+    } = useContext(AuthContext);
+
     const [ messages, setMessages ] = useState([]);
 
     useEffect(()=>{
@@ -28,17 +33,17 @@ const Chat = () =>{
                 setMessages(refactorMessagesInitial(messagesBanco, userLogued.telephone));
                 scrollToBottom(divRef);
             })();
+        } else {
+            setMessages([]);
         }
     }, [chatCurrent]);
 
     useEffect(()=>{
-        console.log(lastMsgChatCurrent);
-
         if (Object.entries(lastMsgChatCurrent).length > 0) {
             setMessages(messages => [...messages, lastMsgChatCurrent]);
 
             const timeOut = setTimeout(() => {
-                scrollToBottom(divRef)
+                scrollToBottom(divRef);
                 clearTimeout(timeOut);
             }, 5);
         }
