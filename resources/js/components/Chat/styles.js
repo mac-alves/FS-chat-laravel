@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Device } from '../../config';
 
 export const Container = styled.div`
     width: 70%;
@@ -21,7 +22,7 @@ export const Container = styled.div`
         overflow-y: auto;
         width: 100%;
         margin-top: auto;
-        z-index: 999;
+        z-index: 9;
     }
 
     /* configurando scroll */
@@ -135,6 +136,39 @@ export const Container = styled.div`
 
         .msg{
             background-color: #8CD867;
+        }
+    }
+
+    @media ${Device.mobileL} {
+        & {
+            width: 100%;
+        }
+
+        main {
+            padding: 30px 10px 0px 10px;
+        }
+
+        /* configurando scroll */
+        main::-webkit-scrollbar {
+            width:2px;
+        }
+
+        main::-webkit-scrollbar-thumb {
+            border-radius:2px;
+        }
+
+        .msgDiv{
+            padding-left: 0%;
+            padding-right: 0%;
+            .msg{
+                .deletMsg{
+                    display:none;
+                }
+                .deletMsg.user{
+                    display:none;
+                }
+
+            }
         }
     }
 `;

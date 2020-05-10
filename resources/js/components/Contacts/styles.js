@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Device } from '../../config';
 
 export const Container = styled.div`
     width: 30%;
@@ -91,6 +92,12 @@ export const Container = styled.div`
             /* i:last-child {
                 margin-left: auto;
             } */
+        }
+    }
+
+    @media ${Device.mobileL} {
+        & {
+            width: 100%;
         }
     }
 `;

@@ -15,7 +15,7 @@ import {
     scrollToBottom
 } from './scripts';
 
-const Chat = () =>{
+const Chat = ({ toglePage, modo }) =>{
     const divRef = useRef();
 
     const {
@@ -59,7 +59,7 @@ const Chat = () =>{
 
     return(
         <Container >
-            <HeaderChat />
+            <HeaderChat isMobile={modo} funcToglePage={toglePage} />
 
             <img src={ImgChat} alt="" className="imgChat"/>
             <main ref={divRef}>

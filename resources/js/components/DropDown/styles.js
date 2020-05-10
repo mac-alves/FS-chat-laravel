@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Device } from '../../config';
 
 export const Container = styled.div`
     position: absolute;
@@ -8,6 +9,7 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: 190px;
+    z-index: 20;
 
     & > button {
         width: 100%;
@@ -20,5 +22,11 @@ export const Container = styled.div`
 
     & > button:hover{
         background-color: #6d6b6b;
+    }
+
+    @media ${Device.mobileL} {
+        & {
+            top: 40px;
+        }
     }
 `;

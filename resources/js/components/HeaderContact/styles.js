@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Device } from '../../config';
 
 export const Container = styled.header`
     background-color: #4A494B;
@@ -48,5 +49,20 @@ export const Container = styled.header`
             transform: scale(1.1) rotate(-15deg);
         }
 
+    }
+
+    @media ${Device.mobileL} {
+        & {
+            padding: 10px 10px;
+            height: 50px;
+        }
+
+        .userContact {
+
+            img {
+                width: 35px;
+                height: 35px;
+            }
+        }
     }
 `;

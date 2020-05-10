@@ -14,7 +14,7 @@ import {
 import { refactorMessageRealTime } from '../Chat/scripts';
 
 
-const Contacts = () => {
+const Contacts = ({ toglePage, modo }) => {
     const {
         userLogued,
         setChatCurrent,
@@ -63,7 +63,7 @@ const Contacts = () => {
 
     return (
         <Container>
-            <HeaderContact infoUser={userHeader} />
+            <HeaderContact infoUser={userHeader} isMobile={modo} />
 
             <main>
                 {contacts.map((contact, key) => (
@@ -71,7 +71,7 @@ const Contacts = () => {
                         <div className="imgDiv">
                             {(!!contact.img) ? <img src={contact.img} alt=""/> : <AiFillWechat size={54} color="#ef2d56" /> }
                         </div>
-                        <div className="infoContac" onClick={() => setChatCurrent(contact)}>
+                        <div className="infoContac" onClick={() => {setChatCurrent(contact); if(modo){toglePage('homechat')}}}>
                             <div className="info name">
                                 <p>{contact.name}</p>
                                 <p>{!!contact.lastMessage && contact.lastMessage.dateTime}</p>

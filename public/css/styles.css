@@ -222,6 +222,17 @@ form .btn-form:hover{
 }
 
 @media only screen and (max-width: 770px) {
+    .container{
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+
+    .content{
+        top: 2px;
+        margin: 0;
+        height: 100%;
+    }
+
     .imgContent {
       opacity: 0.1;
     }

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Device } from '../../config';
 
 export const Container = styled.input`
     width: 100%;
@@ -18,5 +19,11 @@ export const Container = styled.input`
         outline: thin dotted;
         outline: 0px auto -webkit-focus-ring-color;
         outline-offset: 0px;
+    }
+
+    @media ${Device.mobileL} {
+        & {
+            min-height: 40px;
+        }
     }
 `;

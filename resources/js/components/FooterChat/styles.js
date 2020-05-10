@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Device } from '../../config';
 
 export const Container = styled.footer`
     width: 100%;
@@ -43,6 +44,13 @@ export const Container = styled.footer`
 
         button:disabled{
             background-color: transparent;
+        }
+    }
+
+    @media ${Device.mobileL} {
+        & {
+            padding: 7px 7px;
+            min-height: 54px;
         }
     }
 `;

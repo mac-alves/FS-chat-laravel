@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Device } from '../../config';
 
 export const Container = styled.header`
     background-color: #4A494B;
@@ -7,6 +8,13 @@ export const Container = styled.header`
     padding: 10px 20px;
     display: flex;
     color: #EF2D56;
+
+    .returnCont{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 10px;
+    }
 
     .userContact {
         display: flex;
@@ -107,6 +115,21 @@ export const Container = styled.header`
         .dropDown.did-fade-in{
             display: block;
             animation: fade-out 0.5s;
+        }
+    }
+
+    @media ${Device.mobileL} {
+        & {
+            padding: 10px 10px;
+            height: 50px;
+        }
+
+        .userContact {
+
+            img {
+                width: 35px;
+                height: 35px;
+            }
         }
     }
 `;

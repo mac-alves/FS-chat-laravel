@@ -1,18 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { api } from '../../services/api';
 import AuthContext from '../../contexts/auth';
 import { FiMoreVertical } from 'react-icons/fi';
+import { TiArrowLeftOutline } from 'react-icons/ti';
 import { Container } from './styles';
 import { AiFillWechat } from 'react-icons/ai';
 import HeaderItem from '../HeaderItem';
 
-const HeaderChat = () => {
+const HeaderChat = ({ funcToglePage, isMobile }) => {
     const {
         chatCurrent,
         setLastMsgChatCurrent,
         setChatCurrent
     } = useContext(AuthContext);
-
+    const [ siseIconHeader, setSiseIconHeader ] = useState(50);
     const itensDorpDown = [
         { name: 'Deletar Contato', func: handleDeleteContact }
     ]
@@ -33,11 +34,21 @@ const HeaderChat = () => {
         });
     }
 
+    useEffect(()=>{
+        console.log(isMobile)
+        setSiseIconHeader(30)
+    }, [isMobile]);
+
     return (
         <Container >
+            {isMobile && (
+                <div className="returnCont">
+                    <i onClick={() => funcToglePage('homecont')} ><TiArrowLeftOutline size={siseIconHeader} /></i>
+                </div>
+            )}
             <div className="userContact">
                 { (!!chatCurrent.img) ? <img src={chatCurrent.img} alt=""/> :
-                  (!!chatCurrent.name) ? <AiFillWechat size={50} color="#ef2d56" /> : <div></div>}
+                  (!!chatCurrent.name) ? <AiFillWechat size={siseIconHeader} color="#ef2d56" /> : <div></div>}
                 <div className="info">
                     <p>{!!chatCurrent && chatCurrent.name}</p>
                 </div>
@@ -45,7 +56,7 @@ const HeaderChat = () => {
 
             {!!chatCurrent.name && (
                 <HeaderItem
-                    icon={<FiMoreVertical size={25} color="#ef2d56" />}
+                    icon={<FiMoreVertical size={siseIconHeader} color="#ef2d56" />}
                     dropDownItens={itensDorpDown} />
             )}
         </Container>
