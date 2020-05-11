@@ -24,7 +24,7 @@ export const Container = styled.div`
         background-color: #6d6b6b;
     }
 
-    @media ${Device.mobileL} {
+    @media ${Device.tablet} {
         & {
             top: 40px;
         }

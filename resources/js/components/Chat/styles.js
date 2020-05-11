@@ -139,7 +139,7 @@ export const Container = styled.div`
         }
     }
 
-    @media ${Device.mobileL} {
+    @media ${Device.tablet} {
         & {
             width: 100%;
         }

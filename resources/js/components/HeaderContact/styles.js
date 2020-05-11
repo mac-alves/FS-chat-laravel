@@ -51,7 +51,7 @@ export const Container = styled.header`
 
     }
 
-    @media ${Device.mobileL} {
+    @media ${Device.tablet} {
         & {
             padding: 10px 10px;
             height: 50px;

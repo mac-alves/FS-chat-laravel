@@ -11,7 +11,9 @@ function Home() {
     const [ isMobile, setIsmobile ] = useState(false);
 
     useLayoutEffect(() => {
-        if (widthWindow <= Size.mobileL) {
+        console.log(widthWindow);
+
+        if (widthWindow <= Size.tablet) {
             setIsmobile(true);
         } else {
             setIsmobile(false);

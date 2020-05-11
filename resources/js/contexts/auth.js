@@ -1,16 +1,7 @@
 import React, { createContext, useEffect, useState, useCallback} from 'react';
 import { api, csfr } from '../services/api';
 
-const AuthContext = createContext({
-    chatCurrent: {},
-    setChatCurrent: () => {},
-    userLogued: {},
-    logout: () => {},
-    lastMsgChatCurrent: {},
-    setLastMsgChatCurrent: () => {},
-    contacts: [],
-    setContacts: () => {},
-});
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 

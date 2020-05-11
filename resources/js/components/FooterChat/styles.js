@@ -47,7 +47,7 @@ export const Container = styled.footer`
         }
     }
 
-    @media ${Device.mobileL} {
+    @media ${Device.tablet} {
         & {
             padding: 7px 7px;
             min-height: 54px;

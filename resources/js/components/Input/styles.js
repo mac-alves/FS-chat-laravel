@@ -21,7 +21,7 @@ export const Container = styled.input`
         outline-offset: 0px;
     }
 
-    @media ${Device.mobileL} {
+    @media ${Device.tablet} {
         & {
             min-height: 40px;
         }

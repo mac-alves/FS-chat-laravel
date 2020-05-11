@@ -43,7 +43,7 @@ export const Container = styled.div`
         }
     }
 
-    @media ${Device.mobileL} {
+    @media ${Device.tablet} {
         section{
             width: ${props => props.width || '330px' };
         }

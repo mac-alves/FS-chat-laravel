@@ -78,7 +78,7 @@ export const Container = styled.div`
 
     }
 
-    @media ${Device.mobileL} {
+    @media ${Device.tablet} {
         .form-newCont{
             button:hover {
                 background-color: transparent;
