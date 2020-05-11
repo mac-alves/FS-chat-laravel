@@ -52,5 +52,11 @@ export const Container = styled.footer`
             padding: 7px 7px;
             min-height: 54px;
         }
+
+        .fomMsg {
+            button:hover {
+                background-color: transparent;
+            }
+        }
     }
 `;

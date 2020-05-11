@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import AuthContext from '../../contexts/auth';
 import { Container } from './styles';
 import HeaderContact from '../HeaderContact';
@@ -28,23 +28,28 @@ const Contacts = ({ toglePage, modo }) => {
         name: null,
         status: null
     });
+    const setInfoUserHeader = () => setUserHeader({name: userLogued.at_sign, status: null});
+
+    const updateListContacts = async () => {
+        const contactsBanco = await getListContacts();
+
+        setContacts(refactorContactList(contactsBanco));
+    };
 
     useEffect(() => {
-        if (Object.entries(userLogued).length > 0) {
-            setUserHeader({name: userLogued.at_sign, status: null});
-
-            (async () => {
-                const contactsBanco = await getListContacts();
-
-                setContacts(refactorContactList(contactsBanco));
-            })();
+        if (Object.entries(lastMsgChatCurrent).length > 0 ||
+            Object.entries(contacts).length > 0) {
+            updateListContacts();
         }
-    }, [userLogued, lastMsgChatCurrent]);
+    }, [lastMsgChatCurrent]);
 
     useEffect(() => {
+        setInfoUserHeader();
+        updateListContacts();
+
         window.Echo.private(`message.received.${userLogued.telephone}`).listen('SendMessage', (event) => {
             if (Object.entries(event).length > 0) {
-                 const isListed = (contacts.length === 0) ? false : contacts.every(contact => contact.telephone === event.from_user);
+                 const isListed = (contacts.length === 0) ? false : contacts.some(contact => contact.telephone === event.from_user);
 
                 if (isListed === true) {
                     setLastMsgChatCurrent(refactorMessageRealTime(event));
@@ -59,7 +64,7 @@ const Contacts = ({ toglePage, modo }) => {
                 }
             }
         });
-    }, [contacts]);
+    }, [userLogued]);
 
     return (
         <Container>

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Device } from '../../config';
 
 export const Container = styled.div`
     position: fixed;
@@ -39,6 +40,12 @@ export const Container = styled.div`
             /* background-color: #565; */
             margin-top: 35px;
             height: calc(100% - 35px);
+        }
+    }
+
+    @media ${Device.mobileL} {
+        section{
+            width: ${props => props.width || '330px' };
         }
     }
 `;

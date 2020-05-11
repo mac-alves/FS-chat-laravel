@@ -34,10 +34,11 @@ const HeaderChat = ({ funcToglePage, isMobile }) => {
         });
     }
 
-    useEffect(()=>{
-        console.log(isMobile)
-        setSiseIconHeader(30)
-    }, [isMobile]);
+    useEffect(()=> {
+        if (isMobile) {
+            setSiseIconHeader(30);
+        }
+    },[isMobile]);
 
     return (
         <Container >
@@ -56,7 +57,7 @@ const HeaderChat = ({ funcToglePage, isMobile }) => {
 
             {!!chatCurrent.name && (
                 <HeaderItem
-                    icon={<FiMoreVertical size={siseIconHeader} color="#ef2d56" />}
+                    icon={<FiMoreVertical size={(isMobile) ? siseIconHeader : 30 } color="#ef2d56" />}
                     dropDownItens={itensDorpDown} />
             )}
         </Container>

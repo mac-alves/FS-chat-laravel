@@ -12,14 +12,8 @@ function Home() {
 
     useLayoutEffect(() => {
         if (widthWindow <= Size.mobileL) {
-            // mobile
-            console.log('mobile')
-            console.log(widthWindow <= Size.mobileL)
             setIsmobile(true);
         } else {
-            // web
-            console.log('web')
-            console.log((widthWindow+'px') <= Size.mobileL)
             setIsmobile(false);
         }
     }, []);

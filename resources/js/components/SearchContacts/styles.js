@@ -1,5 +1,6 @@
 import { DebounceInput } from 'react-debounce-input';
 import styled from 'styled-components';
+import { Device } from '../../config';
 
 export const Container = styled.div`
     padding: 10px 10px 5px 10px;
@@ -127,6 +128,12 @@ export const Container = styled.div`
         transition: all 0.5s ease;
     }
     /* --------------- */
+
+    @media ${Device.mobileL} {
+        & > div {
+            width: 320px;
+        }
+    }
 `;
 
 export const Input = styled(DebounceInput)`

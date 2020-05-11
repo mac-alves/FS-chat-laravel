@@ -27,7 +27,9 @@ const HeaderContact = ({ infoUser, toglePage, isMobile }) => {
     }
 
     useEffect(()=>{
-        setSiseIconHeader(30)
+        if (isMobile) {
+            setSiseIconHeader(30);
+        }
     }, [isMobile]);
 
     return (
@@ -41,7 +43,7 @@ const HeaderContact = ({ infoUser, toglePage, isMobile }) => {
             </div>
 
             <HeaderItem
-                icon={<FiMoreVertical size={siseIconHeader}
+                icon={<FiMoreVertical size={(isMobile) ? siseIconHeader : 30 }
                 color="#ef2d56" />}
                 dropDownItens={itensDorpDown} />
 

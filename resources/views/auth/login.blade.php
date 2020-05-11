@@ -20,7 +20,7 @@
 
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
-                    <input type="email" name="email" id="email" placeholder="E-mail">
+                    <input type="email" name="email" id="email" placeholder="E-mail" autocomplete="off">
                     <input type="password" name="password" id="password" placeholder="password" required>
 
                     <div class="optionsDiv">
@@ -29,9 +29,9 @@
                             <label for="remember">Remember Me</label>
                         </div>
 
-                        <a class="link" href="{{ route('password.request') }}">
+                        <!-- <a class="link" href="{{ route('password.request') }}">
                             {{ __('Forgot Your Password?') }}
-                        </a>
+                        </a> -->
                     </div>
 
                     <button type="submit" class="btn-form">Login</button>

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Device } from '../../config';
 
 export const Container = styled.div`
     width: 100%;
@@ -75,5 +76,13 @@ export const Container = styled.div`
             }
         }
 
+    }
+
+    @media ${Device.mobileL} {
+        .form-newCont{
+            button:hover {
+                background-color: transparent;
+            }
+        }
     }
 `;
