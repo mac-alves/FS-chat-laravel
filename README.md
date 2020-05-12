@@ -85,6 +85,10 @@ $ php artisan server
 # in another tab of the terminal execute
 $ laravel-echo-server start
 ```
+
+## :memo: License
+This project is under the MIT license. See the [LICENSE](https://github.com/mac-bleck/FS-chat-laravel/blob/master/LICENSE) for more information.
+
 ---
 
 ## Autor
